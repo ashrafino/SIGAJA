@@ -24,33 +24,6 @@ const authUser = async (req, res) => {
     email = email.trim().toLowerCase();
     if (email === 'admin') email = 'admin@srm.com';
 
-    // --- FIX D'URGENCE ---
-    // Si c'est l'admin et le mot de passe est 123456, on force la connexion
-    if (email === 'admin@srm.com' && password === '123456') {
-         console.log('LOGIN DEBUG: Hardware check passed. Finding user...');
-         let user = await User.findOne({ email });
-         
-         // Si l'utilisateur n'existe pas, on le CRÉE D'URGENCE
-         if (!user) {
-             console.log('LOGIN DEBUG: User not found in DB! Creating emergency admin...');
-             user = await User.create({
-                 name: 'Administrateur',
-                 email: 'admin@srm.com',
-                 password: '123456', // Sera haché par le hook
-                 role: 'Admin'
-             });
-         }
-
-         return res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id),
-         });
-    }
-    // ----------------------
-
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
