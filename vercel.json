@@ -10,5 +10,13 @@
       "routePrefix": "/_/backend",
       "entrypoint": "server.js"
     }
+  },
+  "env": {
+    "MONGO_URI": "mongodb+srv://achrafbach2_db_user:F6DKnfJuGwMGotOJ@cluster0.hpzkzv8.mongodb.net/srm_db?retryWrites=true&w=majority&appName=Cluster0",
+    "JWT_SECRET": "supersecret123",
+    "CLOUDINARY_API_SECRET": "XUsfNxFAFCl8sLrQ_1JvL1Yyxy8",
+    "CLOUDINARY_CLOUD_NAME": "do8wut8mk",
+    "CLOUDINARY_API_KEY": "786822589618233",
+    "NODE_ENV": "production"
   }
 }
