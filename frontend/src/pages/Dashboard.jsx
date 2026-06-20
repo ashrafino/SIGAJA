@@ -178,51 +178,33 @@ const Dashboard = () => {
       </p>
 
       {/* KPI Cards — Real Data */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon bg-blue">
-            <Scale size={24} color="white" />
-          </div>
-          <div className="stat-info">
-            <h3>Dossiers Contentieux</h3>
-            <p>
-              {overview?.dossiersEnCours ?? "—"}{" "}
-              <span className="stat-sub">
-                / {overview?.totalDossiers ?? 0} total
-              </span>
-            </p>
+      <div className="kpi-grid">
+        <div className="kpi-card blue">
+          <Scale size={28} />
+          <div>
+            <span className="kpi-value">{overview?.dossiersEnCours ?? "—"}</span>
+            <span className="kpi-label">Dossiers Contentieux ({overview?.totalDossiers ?? 0} total)</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon bg-green">
-            <TrendingUp size={24} color="white" />
-          </div>
-          <div className="stat-info">
-            <h3>Taux de Recouvrement</h3>
-            <p>{overview?.tauxRecouvrement ?? 0}%</p>
+        <div className="kpi-card green">
+          <TrendingUp size={28} />
+          <div>
+            <span className="kpi-value">{overview?.tauxRecouvrement ?? 0}%</span>
+            <span className="kpi-label">Taux de Recouvrement</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon bg-yellow">
-            <Shield size={24} color="white" />
-          </div>
-          <div className="stat-info">
-            <h3>Assurances en Attente</h3>
-            <p>
-              {overview?.assurancesDeclarees ?? 0}{" "}
-              <span className="stat-sub">
-                / {overview?.totalAssurances ?? 0} total
-              </span>
-            </p>
+        <div className="kpi-card orange">
+          <Shield size={28} />
+          <div>
+            <span className="kpi-value">{overview?.assurancesDeclarees ?? 0}</span>
+            <span className="kpi-label">Assurances en Attente ({overview?.totalAssurances ?? 0} total)</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon bg-red">
-            <AlertTriangle size={24} color="white" />
-          </div>
-          <div className="stat-info">
-            <h3>Exposition aux Risques</h3>
-            <p>{formatMAD(overview?.expositionRisque)}</p>
+        <div className="kpi-card red">
+          <AlertTriangle size={28} />
+          <div>
+            <span className="kpi-value" style={{ fontSize: '1.4rem' }}>{formatMAD(overview?.expositionRisque)}</span>
+            <span className="kpi-label">Exposition aux Risques</span>
           </div>
         </div>
       </div>
@@ -380,28 +362,31 @@ const Dashboard = () => {
       {overview &&
         (overview.montantTotalContentieux > 0 ||
           overview.montantRecouvre > 0) && (
-          <div className="stats-grid financial-grid">
-            <div className="stat-card financial">
-              <h4>Coût Total Contentieux</h4>
-              <p className="financial-value">
-                {formatMAD(overview.montantTotalContentieux)}
-              </p>
-            </div>
-            <div className="stat-card financial">
-              <h4>Montant Recouvré</h4>
-              <p className="financial-value green">
-                {formatMAD(overview.montantRecouvre)}
-              </p>
-            </div>
-            <div className="stat-card financial">
-              <h4>Contrats Actifs</h4>
-              <p className="financial-value blue">
-                {overview.contratsActifs} / {overview.totalContrats}
-              </p>
-            </div>
-            <div className="stat-card financial">
-              <h4>Actions Urgentes</h4>
-              <p className="financial-value red">{overview.actionsUrgentes}</p>
+          <div className="financial-summary">
+            <h3>Résumé Financier et Opérationnel</h3>
+            <div className="financial-row">
+              <div className="fin-item">
+                <span className="fin-label">Coût Total Contentieux</span>
+                <span className="fin-value">
+                  {formatMAD(overview.montantTotalContentieux)}
+                </span>
+              </div>
+              <div className="fin-item">
+                <span className="fin-label">Montant Recouvré</span>
+                <span className="fin-value green">
+                  {formatMAD(overview.montantRecouvre)}
+                </span>
+              </div>
+              <div className="fin-item">
+                <span className="fin-label">Contrats Actifs</span>
+                <span className="fin-value blue">
+                  {overview.contratsActifs} / {overview.totalContrats}
+                </span>
+              </div>
+              <div className="fin-item">
+                <span className="fin-label">Actions Urgentes</span>
+                <span className="fin-value red">{overview.actionsUrgentes}</span>
+              </div>
             </div>
           </div>
         )}
@@ -422,55 +407,63 @@ const Dashboard = () => {
         </div>
 
         {actions.length === 0 ? (
-          <p style={{ padding: "20px", color: "#666" }}>
-            Aucune action prioritaire pour le moment.
-          </p>
+          <div className="empty-state" style={{ margin: '20px', border: 'none' }}>
+            <div className="empty-state-icon">
+              <Activity size={32} />
+            </div>
+            <h3>Aucune action prioritaire</h3>
+            <p>Tout est à jour. Aucune action urgente n'est requise.</p>
+          </div>
         ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Dossier / Titre</th>
-                <th>Type</th>
-                <th>Date Échéance</th>
-                <th>Statut</th>
-                {isAdmin && <th>Actions</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {actions.map((action) => (
-                <tr key={action._id}>
-                  <td>{action.titre}</td>
-                  <td>{action.type}</td>
-                  <td>{new Date(action.dateEcheance).toLocaleDateString()}</td>
-                  <td>
-                    <span
-                      className={`status status-${action.statut === "Urgent" ? "urgent" : action.statut === "À renouveler" ? "warning" : "info"}`}
-                    >
-                      {action.statut}
-                    </span>
-                  </td>
-                  {isAdmin && (
-                    <td className="action-buttons">
-                      <button
-                        className="btn-icon"
-                        onClick={() => handleEdit(action)}
-                        title="Modifier"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        className="btn-icon delete"
-                        onClick={() => handleDelete(action._id)}
-                        title="Supprimer"
-                      >
-                        <Trash size={16} />
-                      </button>
-                    </td>
-                  )}
+          <div className="table-container" style={{ margin: '20px', boxShadow: 'none', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Dossier / Titre</th>
+                  <th>Type</th>
+                  <th>Date Échéance</th>
+                  <th>Statut</th>
+                  {isAdmin && <th style={{textAlign: 'right'}}>Actions</th>}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {actions.map((action) => (
+                  <tr key={action._id}>
+                    <td style={{ fontWeight: 600 }}>{action.titre}</td>
+                    <td>{action.type}</td>
+                    <td>{new Date(action.dateEcheance).toLocaleDateString()}</td>
+                    <td>
+                      <span
+                        className={`status status-${action.statut === "Urgent" ? "urgent" : action.statut === "À renouveler" ? "warning" : action.statut === "Traité" ? "success" : "info"}`}
+                      >
+                        {action.statut}
+                      </span>
+                    </td>
+                    {isAdmin && (
+                      <td style={{textAlign: 'right'}}>
+                        <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
+                          <button
+                            className="btn-icon"
+                            onClick={() => handleEdit(action)}
+                            title="Modifier"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            className="btn-icon delete"
+                            onClick={() => handleDelete(action._id)}
+                            title="Supprimer"
+                          >
+                            <Trash size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

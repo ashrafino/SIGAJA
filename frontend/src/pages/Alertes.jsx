@@ -75,128 +75,160 @@ const Alertes = () => {
 
             <div className="card">
                 <h3>⚠️ Action requise : À renouveler</h3>
-                <div className="table-container">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>N° Contrat</th>
-                                <th>Type</th>
-                                <th>Fin du contrat</th>
-                                <th>Jours restants</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {aRenouveler.length === 0 ? (
-                                <tr><td colSpan="5" className="text-center">Aucun contrat à renouveler</td></tr>
-                            ) : aRenouveler.map(c => (
-                                <tr key={c._id}>
-                                    <td style={{fontWeight: 600}}>{c.numeroContrat}</td>
-                                    <td>{c.type}</td>
-                                    <td>{new Date(c.dateFin).toLocaleDateString()}</td>
-                                    <td><span className="expiry-badge warning"><Clock size={12} /> {getDaysUntilExpiry(c.dateFin)}j</span></td>
-                                    <td>
-                                        <button className="btn btn-primary" style={{padding: '5px 10px', fontSize: '0.8rem'}} onClick={() => navigate('/contrats')}>Consulter</button>
-                                    </td>
+                {aRenouveler.length === 0 ? (
+                    <div className="empty-state" style={{ padding: '40px 20px', margin: '0' }}>
+                        <div className="empty-state-icon">
+                            <RefreshCw size={32} />
+                        </div>
+                        <h3>Aucun contrat à renouveler</h3>
+                        <p>Vous êtes à jour dans vos renouvellements.</p>
+                    </div>
+                ) : (
+                    <div className="table-container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>N° Contrat</th>
+                                    <th>Type</th>
+                                    <th>Fin du contrat</th>
+                                    <th>Jours restants</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {aRenouveler.map(c => (
+                                    <tr key={c._id}>
+                                        <td style={{fontWeight: 600}}>{c.numeroContrat}</td>
+                                        <td>{c.type}</td>
+                                        <td>{new Date(c.dateFin).toLocaleDateString()}</td>
+                                        <td><span className="expiry-badge warning"><Clock size={12} /> {getDaysUntilExpiry(c.dateFin)}j</span></td>
+                                        <td>
+                                            <button className="btn btn-primary" style={{padding: '6px 12px', fontSize: '0.8rem'}} onClick={() => navigate('/contrats')}>Consulter</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
 
-            <div className="card" style={{borderLeft: '4px solid #EF4444'}}>
-                <h3 style={{color: '#B91C1C'}}>🚨 Critique : Dépassés / Expirés</h3>
-                <div className="table-container">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>N° Contrat</th>
-                                <th>Type</th>
-                                <th>Expiré depuis</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {expires.length === 0 ? (
-                                <tr><td colSpan="4" className="text-center">Aucun contrat expiré</td></tr>
-                            ) : expires.map(c => (
-                                <tr key={c._id}>
-                                    <td style={{fontWeight: 600}}>{c.numeroContrat}</td>
-                                    <td>{c.type}</td>
-                                    <td><span className="expiry-badge expired"><AlertTriangle size={12} /> {Math.abs(getDaysUntilExpiry(c.dateFin))}j de retard</span></td>
-                                    <td>
-                                        <button className="btn btn-secondary" style={{padding: '5px 10px', fontSize: '0.8rem'}} onClick={() => navigate('/contrats')}>Résilier / Renouveler</button>
-                                    </td>
+            <div className="card" style={{borderLeft: '4px solid var(--danger-color)', marginTop: '20px'}}>
+                <h3 style={{color: 'var(--danger-color)'}}>🚨 Critique : Dépassés / Expirés</h3>
+                {expires.length === 0 ? (
+                    <div className="empty-state" style={{ padding: '40px 20px', margin: '0' }}>
+                        <div className="empty-state-icon">
+                            <AlertTriangle size={32} />
+                        </div>
+                        <h3>Aucun contrat expiré</h3>
+                        <p>Parfait ! Tous vos contrats sont en règle.</p>
+                    </div>
+                ) : (
+                    <div className="table-container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>N° Contrat</th>
+                                    <th>Type</th>
+                                    <th>Expiré depuis</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {expires.map(c => (
+                                    <tr key={c._id}>
+                                        <td style={{fontWeight: 600}}>{c.numeroContrat}</td>
+                                        <td>{c.type}</td>
+                                        <td><span className="expiry-badge expired"><AlertTriangle size={12} /> {Math.abs(getDaysUntilExpiry(c.dateFin))}j de retard</span></td>
+                                        <td>
+                                            <button className="btn btn-secondary" style={{padding: '6px 12px', fontSize: '0.8rem'}} onClick={() => navigate('/contrats')}>Résilier / Renouveler</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
 
-            <div className="card" style={{borderLeft: '4px solid #F59E0B', marginTop: '20px'}}>
-                <h3 style={{color: '#D97706'}}>⚖️ Contentieux Critiques</h3>
-                <div className="table-container">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>N° Dossier</th>
-                                <th>Nature du Litige</th>
-                                <th>Montant</th>
-                                <th>Statut</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {dossiersCritiques.length === 0 ? (
-                                <tr><td colSpan="5" className="text-center">Aucun dossier critique en cours</td></tr>
-                            ) : dossiersCritiques.map(d => (
-                                <tr key={d._id}>
-                                    <td style={{fontWeight: 600}}>{d.numeroDossier}</td>
-                                    <td>{d.natureLitige || d.activite}</td>
-                                    <td>{d.montant?.toLocaleString()} MAD</td>
-                                    <td><span className="status status-warning">{d.statut}</span></td>
-                                    <td>
-                                        <button className="btn btn-primary" style={{padding: '5px 10px', fontSize: '0.8rem'}} onClick={() => navigate('/recouvrement')}>Consulter</button>
-                                    </td>
+            <div className="card" style={{borderLeft: '4px solid var(--warning-color)', marginTop: '20px'}}>
+                <h3 style={{color: 'var(--warning-color)'}}>⚖️ Contentieux Critiques</h3>
+                {dossiersCritiques.length === 0 ? (
+                    <div className="empty-state" style={{ padding: '40px 20px', margin: '0' }}>
+                        <div className="empty-state-icon">
+                            <FileText size={32} />
+                        </div>
+                        <h3>Aucun dossier critique</h3>
+                        <p>Aucun dossier contentieux n'est actuellement au stade critique.</p>
+                    </div>
+                ) : (
+                    <div className="table-container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>N° Dossier</th>
+                                    <th>Nature du Litige</th>
+                                    <th>Montant</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {dossiersCritiques.map(d => (
+                                    <tr key={d._id}>
+                                        <td style={{fontWeight: 600}}>{d.numeroDossier}</td>
+                                        <td>{d.natureLitige || d.activite}</td>
+                                        <td style={{ fontWeight: 500 }}>{d.montant?.toLocaleString()} MAD</td>
+                                        <td><span className="status status-warning">{d.statut}</span></td>
+                                        <td>
+                                            <button className="btn btn-primary" style={{padding: '6px 12px', fontSize: '0.8rem'}} onClick={() => navigate('/recouvrement')}>Consulter</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
 
-            <div className="card" style={{borderLeft: '4px solid #3B82F6', marginTop: '20px'}}>
-                <h3 style={{color: '#2563EB'}}>🛡️ Assurances en Expertise</h3>
-                <div className="table-container">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Type Assurance</th>
-                                <th>Service</th>
-                                <th>Demandé</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {assurancesEnExpertise.length === 0 ? (
-                                <tr><td colSpan="5" className="text-center">Aucune assurance en expertise</td></tr>
-                            ) : assurancesEnExpertise.map(a => (
-                                <tr key={a._id}>
-                                    <td style={{fontWeight: 600}}>{new Date(a.date).toLocaleDateString()}</td>
-                                    <td>{a.typeAssurance}</td>
-                                    <td>{a.service}</td>
-                                    <td>{a.montantDemande ? `${a.montantDemande.toLocaleString()} MAD` : '—'}</td>
-                                    <td>
-                                        <button className="btn btn-primary" style={{padding: '5px 10px', fontSize: '0.8rem'}} onClick={() => navigate('/assurances')}>Consulter</button>
-                                    </td>
+            <div className="card" style={{borderLeft: '4px solid var(--secondary-color)', marginTop: '20px'}}>
+                <h3 style={{color: 'var(--secondary-color)'}}>🛡️ Assurances en Expertise</h3>
+                {assurancesEnExpertise.length === 0 ? (
+                    <div className="empty-state" style={{ padding: '40px 20px', margin: '0' }}>
+                        <div className="empty-state-icon">
+                            <FileText size={32} />
+                        </div>
+                        <h3>Aucune expertise en cours</h3>
+                        <p>Aucun dossier d'assurance n'est actuellement en expertise.</p>
+                    </div>
+                ) : (
+                    <div className="table-container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type Assurance</th>
+                                    <th>Service</th>
+                                    <th>Demandé</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {assurancesEnExpertise.map(a => (
+                                    <tr key={a._id}>
+                                        <td style={{fontWeight: 600}}>{new Date(a.date).toLocaleDateString()}</td>
+                                        <td>{a.typeAssurance}</td>
+                                        <td>{a.service}</td>
+                                        <td style={{ fontWeight: 500 }}>{a.montantDemande ? `${a.montantDemande.toLocaleString()} MAD` : '—'}</td>
+                                        <td>
+                                            <button className="btn btn-primary" style={{padding: '6px 12px', fontSize: '0.8rem'}} onClick={() => navigate('/assurances')}>Consulter</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     );

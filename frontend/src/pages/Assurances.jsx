@@ -258,65 +258,84 @@ const Assurances = () => {
                 </div>
             )}
 
-            <div className="table-container card">
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Service</th>
-                            <th>Lieu</th>
-                            <th>Compagnie</th>
-                            <th>Demandé</th>
-                            <th>Accordé</th>
-                            <th>Délai</th>
-                            <th>Pièces</th>
-                            <th>Statut</th>
-                            {isAdmin && <th style={{textAlign: 'right'}}>Action</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {assurances.map((a) => (
-                            <tr key={a._id}>
-                                <td>{new Date(a.date).toLocaleDateString()}</td>
-                                <td>{a.typeAssurance}</td>
-                                <td>{a.service}</td>
-                                <td>{a.lieu}</td>
-                                <td>{a.compagnieAssurance || '—'}</td>
-                                <td>{a.montantDemande ? `${a.montantDemande.toLocaleString()} MAD` : '—'}</td>
-                                <td>{a.montantAccorde ? `${a.montantAccorde.toLocaleString()} MAD` : '—'}</td>
-                                <td>{getDelaiIndicator(a)}</td>
-                                <td>
-                                    {a.piecesJointes && a.piecesJointes.length > 0 ? (
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                            {a.piecesJointes.map((pj, i) => (
-                                                <a key={i} href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`} target="_blank" rel="noopener noreferrer" 
-                                                   title={`Voir document ${i+1}`} 
-                                                   style={{ color: '#023047', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', textDecoration: 'none' }}>
-                                                    <Paperclip size={14} /> Doc {i+1}
-                                                </a>
-                                            ))}
-                                        </div>
-                                    ) : '—'}
-                                </td>
-                                <td><span className={`status status-${a.statut === 'Déclaré' ? 'warning' : a.statut === 'En expertise' ? 'info' : 'success'}`}>{a.statut}</span></td>
-                                {isAdmin && (
-                                    <td style={{textAlign: 'right'}}>
-                                        <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
-                                            <button className="btn-icon" onClick={() => handleEditClick(a)} title="Modifier">
-                                                <Edit size={18} />
-                                            </button>
-                                            <button className="btn-icon delete" onClick={() => handleDelete(a._id)} title="Supprimer">
-                                                <Trash size={18} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                )}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+      {assurances.length === 0 ? (
+          <div className="empty-state">
+              <div className="empty-state-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <h3>Aucune déclaration d'assurance</h3>
+              <p>Gérez vos sinistres, déclarations et indemnisations en ajoutant un nouveau dossier.</p>
+              {isAdmin && (
+                  <button className="btn btn-primary" onClick={handleNewClick}>
+                      <Plus size={18} /> Déclarer un sinistre
+                  </button>
+              )}
+          </div>
+      ) : (
+          <div className="table-container">
+              <table className="table">
+                  <thead>
+                      <tr>
+                          <th>Date</th>
+                          <th>Type</th>
+                          <th>Service</th>
+                          <th>Lieu</th>
+                          <th>Compagnie</th>
+                          <th>Demandé</th>
+                          <th>Accordé</th>
+                          <th>Délai</th>
+                          <th>Pièces</th>
+                          <th>Statut</th>
+                          {isAdmin && <th style={{textAlign: 'right'}}>Action</th>}
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {assurances.map((a) => (
+                          <tr key={a._id}>
+                              <td style={{ fontWeight: 500 }}>{new Date(a.date).toLocaleDateString()}</td>
+                              <td>{a.typeAssurance}</td>
+                              <td>{a.service}</td>
+                              <td>{a.lieu}</td>
+                              <td>{a.compagnieAssurance || '—'}</td>
+                              <td style={{ fontWeight: 500 }}>{a.montantDemande ? `${a.montantDemande.toLocaleString()} MAD` : '—'}</td>
+                              <td style={{ fontWeight: 500, color: 'var(--success-color)' }}>{a.montantAccorde ? `${a.montantAccorde.toLocaleString()} MAD` : '—'}</td>
+                              <td>
+                                <div style={{ marginTop: '4px' }}>
+                                  {getDelaiIndicator(a)}
+                                </div>
+                              </td>
+                              <td>
+                                  {a.piecesJointes && a.piecesJointes.length > 0 ? (
+                                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                          {a.piecesJointes.map((pj, i) => (
+                                              <a key={i} href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`} target="_blank" rel="noopener noreferrer" 
+                                                 title={`Voir document ${i+1}`} 
+                                                 style={{ color: "var(--secondary-color)", display: "flex", alignItems: "center", gap: "6px", fontSize: "0.8rem", fontWeight: 500, textDecoration: "none", background: "#eff6ff", padding: "4px 8px", borderRadius: "6px", width: "fit-content" }}>
+                                                  <Paperclip size={14} /> Doc {i+1}
+                                              </a>
+                                          ))}
+                                      </div>
+                                  ) : <span style={{ color: "var(--text-secondary)" }}>—</span>}
+                              </td>
+                              <td><span className={`status status-${a.statut === 'Déclaré' ? 'warning' : a.statut === 'En expertise' ? 'info' : 'success'}`}>{a.statut}</span></td>
+                              {isAdmin && (
+                                  <td style={{textAlign: 'right'}}>
+                                      <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
+                                          <button className="btn-icon" onClick={() => handleEditClick(a)} title="Modifier">
+                                              <Edit size={18} />
+                                          </button>
+                                          <button className="btn-icon delete" onClick={() => handleDelete(a._id)} title="Supprimer">
+                                              <Trash size={18} />
+                                          </button>
+                                      </div>
+                                  </td>
+                              )}
+                          </tr>
+                      ))}
+                  </tbody>
+              </table>
+          </div>
+      )}
         </div>
     );
 };

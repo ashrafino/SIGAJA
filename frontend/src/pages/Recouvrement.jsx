@@ -800,128 +800,151 @@ const Recouvrement = () => {
       )}
 
       {/* Table */}
-      <div className="table-container card">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>N° Dossier</th>
-              <th>Type</th>
-              <th>Nature du litige</th>
-              <th>Montant</th>
-              <th>Risque</th>
-              <th>Avancement</th>
-              <th>Pièces</th>
-              <th>Statut</th>
-              <th style={{ textAlign: "right" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dossiers.map((dossier) => (
-              <tr key={dossier._id}>
-                <td style={{ fontWeight: 600 }}>{dossier.numeroDossier}</td>
-                <td>{dossier.typeCreance}</td>
-                <td>{dossier.natureLitige || dossier.activite}</td>
-                <td>{dossier.montant?.toLocaleString()} MAD</td>
-                <td>
-                  <span
-                    style={{
-                      color: riskColor(dossier.risqueFinancier),
-                      fontWeight: 600,
-                    }}
-                  >
-                    ● {dossier.risqueFinancier || "—"}
-                  </span>
-                </td>
-                <td>
-                  <div className="mini-progress">
-                    <div
-                      className="mini-progress-fill"
-                      style={{
-                        width: `${dossier.avancementPourcentage || 0}%`,
-                      }}
-                    ></div>
-                  </div>
-                  <span style={{ fontSize: "0.75rem", color: "#64748b" }}>
-                    {dossier.avancementPourcentage || 0}%
-                  </span>
-                </td>
-                <td>
-                  {dossier.piecesJointes && dossier.piecesJointes.length > 0 ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px",
-                      }}
-                    >
-                      {dossier.piecesJointes.map((pj, i) => (
-                        <a
-                          key={i}
-                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={`Voir document ${i + 1}`}
-                          style={{
-                            color: "#023047",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "4px",
-                            fontSize: "0.8rem",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <Paperclip size={14} /> Doc {i + 1}
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    "—"
-                  )}
-                </td>
-                <td>
-                  <span
-                    className={`status status-${dossier.statut === "En cours" ? "info" : dossier.statut === "En justice" || dossier.statut === "Recours" || dossier.statut === "Jugement rendu" ? "warning" : "success"}`}
-                  >
-                    {dossier.statut}
-                  </span>
-                </td>
-                <td style={{ textAlign: "right" }}>
-                  <div
-                    className="action-buttons"
-                    style={{ justifyContent: "flex-end" }}
-                  >
-                    <button
-                      className="btn-icon"
-                      onClick={() => setShowDetail(dossier)}
-                      title="Voir détail"
-                    >
-                      <Eye size={18} />
-                    </button>
-                    {isAdmin && (
-                      <>
-                        <button
-                          className="btn-icon"
-                          onClick={() => handleEditClick(dossier)}
-                          title="Modifier"
-                        >
-                          <Edit size={18} />
-                        </button>
-                        <button
-                          className="btn-icon delete"
-                          onClick={() => handleDelete(dossier._id)}
-                          title="Supprimer"
-                        >
-                          <Trash size={18} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
+      {dossiers.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <h3>Aucun dossier contentieux</h3>
+          <p>Commencez par créer votre premier dossier de recouvrement ou contentieux pour suivre son avancement.</p>
+          {isAdmin && (
+            <button className="btn btn-primary" onClick={handleNewClick}>
+              <Plus size={18} /> Créer un dossier
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>N° Dossier</th>
+                <th>Type</th>
+                <th>Nature du litige</th>
+                <th>Montant</th>
+                <th>Risque</th>
+                <th>Avancement</th>
+                <th>Pièces</th>
+                <th>Statut</th>
+                <th style={{ textAlign: "right" }}>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {dossiers.map((dossier) => (
+                <tr key={dossier._id}>
+                  <td style={{ fontWeight: 600 }}>{dossier.numeroDossier}</td>
+                  <td>{dossier.typeCreance}</td>
+                  <td>{dossier.natureLitige || dossier.activite}</td>
+                  <td style={{ fontWeight: 500 }}>{dossier.montant?.toLocaleString()} MAD</td>
+                  <td>
+                    <span
+                      style={{
+                        color: riskColor(dossier.risqueFinancier),
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <span style={{ fontSize: '10px' }}>●</span> {dossier.risqueFinancier || "—"}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="mini-progress">
+                      <div
+                        className="mini-progress-fill"
+                        style={{
+                          width: `${dossier.avancementPourcentage || 0}%`,
+                        }}
+                      ></div>
+                    </div>
+                    <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontWeight: 500 }}>
+                      {dossier.avancementPourcentage || 0}%
+                    </span>
+                  </td>
+                  <td>
+                    {dossier.piecesJointes && dossier.piecesJointes.length > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                        }}
+                      >
+                        {dossier.piecesJointes.map((pj, i) => (
+                          <a
+                            key={i}
+                            href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={`Voir document ${i + 1}`}
+                            style={{
+                              color: "var(--secondary-color)",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                              fontSize: "0.8rem",
+                              fontWeight: 500,
+                              textDecoration: "none",
+                              background: "#eff6ff",
+                              padding: "4px 8px",
+                              borderRadius: "6px",
+                              width: "fit-content"
+                            }}
+                          >
+                            <Paperclip size={14} /> Doc {i + 1}
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <span style={{ color: "var(--text-secondary)" }}>—</span>
+                    )}
+                  </td>
+                  <td>
+                    <span
+                      className={`status status-${dossier.statut === "En cours" ? "info" : dossier.statut === "En justice" || dossier.statut === "Recours" || dossier.statut === "Jugement rendu" ? "warning" : "success"}`}
+                    >
+                      {dossier.statut}
+                    </span>
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    <div
+                      className="action-buttons"
+                      style={{ justifyContent: "flex-end" }}
+                    >
+                      <button
+                        className="btn-icon"
+                        onClick={() => setShowDetail(dossier)}
+                        title="Voir détail"
+                      >
+                        <Eye size={18} />
+                      </button>
+                      {isAdmin && (
+                        <>
+                          <button
+                            className="btn-icon"
+                            onClick={() => handleEditClick(dossier)}
+                            title="Modifier"
+                          >
+                            <Edit size={18} />
+                          </button>
+                          <button
+                            className="btn-icon delete"
+                            onClick={() => handleDelete(dossier._id)}
+                            title="Supprimer"
+                          >
+                            <Trash size={18} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

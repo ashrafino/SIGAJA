@@ -369,107 +369,133 @@ const Contrats = () => {
         </div>
       )}
 
-      <div className="table-container card">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>N° Contrat</th>
-              <th>Type</th>
-              <th>Montant</th>
-              <th>Service</th>
-              <th>Début</th>
-              <th>Fin</th>
-              <th>Renouv.</th>
-              <th>Pièces</th>
-              <th>Statut</th>
-              {isAdmin && <th style={{ textAlign: "right" }}>Actions</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {contrats.map((contrat) => (
-              <tr key={contrat._id}>
-                <td style={{ fontWeight: 600 }}>{contrat.numeroContrat}</td>
-                <td>{contrat.type}</td>
-                <td>
-                  {contrat.montant
-                    ? `${contrat.montant.toLocaleString()} MAD`
-                    : "—"}
-                </td>
-                <td>{contrat.service || "—"}</td>
-                <td>{new Date(contrat.dateDebut).toLocaleDateString()}</td>
-                <td>
-                  {new Date(contrat.dateFin).toLocaleDateString()}
-                  {getExpiryBadge(contrat)}
-                </td>
-                <td>{contrat.renouvellementAuto ? "✅ Oui" : "❌ Non"}</td>
-                <td>
-                  {contrat.piecesJointes && contrat.piecesJointes.length > 0 ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px",
-                      }}
-                    >
-                      {contrat.piecesJointes.map((pj, i) => (
-                        <a
-                          key={i}
-                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={`Voir document ${i + 1}`}
-                          style={{
-                            color: "#023047",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "4px",
-                            fontSize: "0.8rem",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <Paperclip size={14} /> Doc {i + 1}
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    "—"
-                  )}
-                </td>
-                <td>
-                  <span
-                    className={`status status-${contrat.statut === "Actif" ? "success" : "danger"}`}
-                  >
-                    {contrat.statut}
-                  </span>
-                </td>
-                {isAdmin && (
-                  <td style={{ textAlign: "right" }}>
-                    <div
-                      className="action-buttons"
-                      style={{ justifyContent: "flex-end" }}
-                    >
-                      <button
-                        className="btn-icon"
-                        onClick={() => handleEditClick(contrat)}
-                        title="Modifier"
-                      >
-                        <Edit size={18} />
-                      </button>
-                      <button
-                        className="btn-icon delete"
-                        onClick={() => handleDelete(contrat._id)}
-                        title="Supprimer"
-                      >
-                        <Trash size={18} />
-                      </button>
+      {contrats.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <h3>Aucun contrat enregistré</h3>
+          <p>Ajoutez les contrats de vos fournisseurs ou prestataires pour suivre leurs échéances et renouvellements.</p>
+          {isAdmin && (
+            <button className="btn btn-primary" onClick={handleNewClick}>
+              <Plus size={18} /> Créer un contrat
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="table-container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>N° Contrat</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Service</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Renouv.</th>
+                <th>Pièces</th>
+                <th>Statut</th>
+                {isAdmin && <th style={{ textAlign: "right" }}>Actions</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {contrats.map((contrat) => (
+                <tr key={contrat._id}>
+                  <td style={{ fontWeight: 600 }}>{contrat.numeroContrat}</td>
+                  <td>{contrat.type}</td>
+                  <td style={{ fontWeight: 500 }}>
+                    {contrat.montant
+                      ? `${contrat.montant.toLocaleString()} MAD`
+                      : "—"}
+                  </td>
+                  <td>{contrat.service || "—"}</td>
+                  <td>{new Date(contrat.dateDebut).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(contrat.dateFin).toLocaleDateString()}
+                    <div style={{ marginTop: '4px' }}>
+                      {getExpiryBadge(contrat)}
                     </div>
                   </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  <td>
+                    <span style={{ color: contrat.renouvellementAuto ? 'var(--success-color)' : 'var(--text-secondary)', fontWeight: 500 }}>
+                      {contrat.renouvellementAuto ? "Automatique" : "Non"}
+                    </span>
+                  </td>
+                  <td>
+                    {contrat.piecesJointes && contrat.piecesJointes.length > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                        }}
+                      >
+                        {contrat.piecesJointes.map((pj, i) => (
+                          <a
+                            key={i}
+                            href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={`Voir document ${i + 1}`}
+                            style={{
+                              color: "var(--secondary-color)",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                              fontSize: "0.8rem",
+                              fontWeight: 500,
+                              textDecoration: "none",
+                              background: "#eff6ff",
+                              padding: "4px 8px",
+                              borderRadius: "6px",
+                              width: "fit-content"
+                            }}
+                          >
+                            <Paperclip size={14} /> Doc {i + 1}
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <span style={{ color: "var(--text-secondary)" }}>—</span>
+                    )}
+                  </td>
+                  <td>
+                    <span
+                      className={`status status-${contrat.statut === "Actif" ? "success" : "danger"}`}
+                    >
+                      {contrat.statut}
+                    </span>
+                  </td>
+                  {isAdmin && (
+                    <td style={{ textAlign: "right" }}>
+                      <div
+                        className="action-buttons"
+                        style={{ justifyContent: "flex-end" }}
+                      >
+                        <button
+                          className="btn-icon"
+                          onClick={() => handleEditClick(contrat)}
+                          title="Modifier"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button
+                          className="btn-icon delete"
+                          onClick={() => handleDelete(contrat._id)}
+                          title="Supprimer"
+                        >
+                          <Trash size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { File, Download, Trash, Upload, Search, Filter } from 'lucide-react';
-import './Dashboard.css'; // Réutiliser les styles existants
+import './Module.css';
 
 const Archivage = () => {
     const [documents, setDocuments] = useState([]);
@@ -33,7 +33,6 @@ const Archivage = () => {
             setFilteredDocuments(data);
         } catch (error) {
             console.error(error);
-            alert('Erreur lors du chargement des documents');
         } finally {
             setLoading(false);
         }
@@ -86,7 +85,6 @@ const Archivage = () => {
             setFile(null);
             document.getElementById('fileInput').value = ''; 
             fetchDocuments();
-            alert('Document téléchargé avec succès');
         } catch (error) {
             console.error(error);
             alert('Erreur lors du téléchargement');
@@ -137,34 +135,72 @@ const Archivage = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <h1 className="page-title">Médiathèque & Archivage</h1>
+        <div className="module-container">
+            <div className="module-header">
+                <h1>Médiathèque & Archivage</h1>
+            </div>
 
             {/* Zone de téléchargement */}
-            <div className="card-upload" style={{
-                background: 'white', padding: '20px', borderRadius: '8px', marginBottom: '20px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
-            }}>
-                <h3><Upload size={20} style={{marginRight: '10px'}}/> Ajouter un nouveau document</h3>
-                <form onSubmit={handleUpload} style={{ display: 'flex', gap: '15px', alignItems: 'flex-end', marginTop: '15px' }}>
-                    <div className="form-group" style={{flex: 1}}>
-                        <label style={{display: 'block', marginBottom: '5px', fontWeight: '500'}}>Fichier</label>
+            {isAdmin && (
+                <div className="card">
+                    <h3><Upload size={20} style={{marginRight: '10px', verticalAlign: 'middle'}}/> Ajouter un nouveau document</h3>
+                    <form onSubmit={handleUpload} style={{ display: 'flex', gap: '15px', alignItems: 'flex-end', marginTop: '15px' }}>
+                        <div className="form-group" style={{flex: 1}}>
+                            <label style={{display: 'block', marginBottom: '8px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)'}}>Fichier</label>
+                            <input 
+                                type="file" 
+                                id="fileInput"
+                                onChange={handleFileChange} 
+                                className="form-control" 
+                                accept=".pdf,.doc,.docx,.jpg,.png"
+                                style={{ padding: '10px' }}
+                            />
+                        </div>
+                        <div className="form-group" style={{width: '250px'}}>
+                            <label style={{display: 'block', marginBottom: '8px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)'}}>Catégorie</label>
+                            <select 
+                                value={category} 
+                                onChange={(e) => setCategory(e.target.value)} 
+                                className="form-control"
+                            >
+                                <option value="General">Général</option>
+                                <option value="Recouvrement">Recouvrement</option>
+                                <option value="Contrat">Contrat</option>
+                                <option value="Assurance">Assurance</option>
+                                <option value="Facture">Facture</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="btn btn-primary" disabled={uploading}>
+                            {uploading ? 'Envoi...' : 'Archiver le document'}
+                        </button>
+                    </form>
+                </div>
+            )}
+
+            {/* Filtres */}
+            <div className="card" style={{ padding: '16px 24px' }}>
+                <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                     <div style={{position: 'relative', flex: 1}}>
+                        <Search size={18} style={{position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)'}} />
                         <input 
-                            type="file" 
-                            id="fileInput"
-                            onChange={handleFileChange} 
-                            className="form-control" 
-                            accept=".pdf,.doc,.docx,.jpg,.png"
-                        />
-                    </div>
-                    <div className="form-group" style={{width: '200px'}}>
-                        <label style={{display: 'block', marginBottom: '5px', fontWeight: '500'}}>Catégorie</label>
-                        <select 
-                            value={category} 
-                            onChange={(e) => setCategory(e.target.value)} 
+                            type="text" 
                             className="form-control"
-                            style={{width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px'}}
+                            placeholder="Rechercher un document par nom ou catégorie..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ paddingLeft: '40px', margin: 0 }}
+                        />
+                     </div>
+                     <div style={{display: 'flex', alignItems: 'center', gap: '10px', width: '250px'}}>
+                        <Filter size={18} color="var(--text-secondary)" />
+                        <select 
+                            className="form-control"
+                            value={filterCategory} 
+                            onChange={(e) => setFilterCategory(e.target.value)}
+                            style={{ margin: 0 }}
                         >
+                            <option value="Tous">Toutes les catégories</option>
                             <option value="General">Général</option>
                             <option value="Recouvrement">Recouvrement</option>
                             <option value="Contrat">Contrat</option>
@@ -172,102 +208,76 @@ const Archivage = () => {
                             <option value="Facture">Facture</option>
                             <option value="Autre">Autre</option>
                         </select>
-                    </div>
-                    <button type="submit" className="btn-primary" disabled={uploading}>
-                        {uploading ? 'Envoi...' : 'Archiver'}
-                    </button>
-                </form>
-            </div>
-
-            {/* Filtres */}
-            <div className="filters-bar" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-                 <div className="search-box" style={{position: 'relative', flex: 1}}>
-                    <Search size={18} style={{position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#888'}} />
-                    <input 
-                        type="text" 
-                        placeholder="Rechercher un document..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{width: '100%', padding: '10px 10px 10px 35px', borderRadius: '4px', border: '1px solid #ddd'}}
-                    />
-                 </div>
-                 <div className="filter-box" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                    <Filter size={18} color="#888" />
-                    <select 
-                        value={filterCategory} 
-                        onChange={(e) => setFilterCategory(e.target.value)}
-                        style={{padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}}
-                    >
-                        <option value="Tous">Toutes les catégories</option>
-                        <option value="General">Général</option>
-                        <option value="Recouvrement">Recouvrement</option>
-                        <option value="Contrat">Contrat</option>
-                        <option value="Assurance">Assurance</option>
-                        <option value="Facture">Facture</option>
-                        <option value="Autre">Autre</option>
-                    </select>
-                 </div>
+                     </div>
+                </div>
             </div>
 
             {/* Liste des documents */}
-            <div className="documents-list" style={{background: 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', overflow: 'hidden'}}>
-                <table className="table" style={{width: '100%', borderCollapse: 'collapse'}}>
-                    <thead style={{background: '#f8f9fa', borderBottom: '2px solid #eee'}}>
-                        <tr>
-                            <th style={{padding: '15px', textAlign: 'left'}}>Nom du fichier</th>
-                            <th style={{padding: '15px', textAlign: 'left'}}>Catégorie</th>
-                            <th style={{padding: '15px', textAlign: 'left'}}>Taille</th>
-                            <th style={{padding: '15px', textAlign: 'left'}}>Ajouté par</th>
-                            <th style={{padding: '15px', textAlign: 'left'}}>Date</th>
-                            <th style={{padding: '15px', textAlign: 'center'}}>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {loading ? (
-                            <tr><td colSpan="6" style={{padding: '20px', textAlign: 'center'}}>Chargement...</td></tr>
-                        ) : filteredDocuments.length === 0 ? (
-                            <tr><td colSpan="6" style={{padding: '20px', textAlign: 'center'}}>Aucun document trouvé.</td></tr>
-                        ) : (
-                            filteredDocuments.map(doc => (
-                                <tr key={doc._id} style={{borderBottom: '1px solid #eee'}}>
-                                    <td style={{padding: '15px', display: 'flex', alignItems: 'center', gap: '10px'}}>
-                                        <File size={20} color="#003366" />
+            {loading ? (
+                <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>Chargement des documents...</div>
+            ) : filteredDocuments.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-state-icon">
+                        <File size={32} />
+                    </div>
+                    <h3>Aucun document trouvé</h3>
+                    <p>La médiathèque est vide ou aucun document ne correspond à vos critères de recherche.</p>
+                </div>
+            ) : (
+                <div className="table-container">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Nom du fichier</th>
+                                <th>Catégorie</th>
+                                <th>Taille</th>
+                                <th>Ajouté par</th>
+                                <th>Date</th>
+                                <th style={{textAlign: 'right'}}>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredDocuments.map(doc => (
+                                <tr key={doc._id}>
+                                    <td style={{ fontWeight: 500, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <File size={18} color="var(--secondary-color)" />
                                         {doc.originalName}
                                     </td>
-                                    <td style={{padding: '15px'}}>
-                                        <span className="badge" style={{
-                                            background: '#e3f2fd', color: '#0d47a1', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem'
-                                        }}>
+                                    <td>
+                                        <span className="status status-info">
                                             {doc.category}
                                         </span>
                                     </td>
-                                    <td style={{padding: '15px'}}>{formatBytes(doc.size)}</td>
-                                    <td style={{padding: '15px'}}>{doc.uploadedBy?.name || 'Inconnu'}</td>
-                                    <td style={{padding: '15px'}}>{new Date(doc.createdAt).toLocaleDateString()}</td>
-                                    <td style={{padding: '15px', textAlign: 'center'}}>
-                                        <button 
-                                            onClick={() => handleDownload(doc._id, doc.originalName)}
-                                            style={{background: 'none', border: 'none', cursor: 'pointer', marginRight: '10px', color: '#28a745'}}
-                                            title="Télécharger"
-                                        >
-                                            <Download size={18} />
-                                        </button>
-                                        {isAdmin && (
+                                    <td>{formatBytes(doc.size)}</td>
+                                    <td>{doc.uploadedBy?.name || 'Inconnu'}</td>
+                                    <td>{new Date(doc.createdAt).toLocaleDateString()}</td>
+                                    <td style={{textAlign: 'right'}}>
+                                        <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
                                             <button 
-                                                onClick={() => handleDelete(doc._id)}
-                                                style={{background: 'none', border: 'none', cursor: 'pointer', color: '#dc3545'}}
-                                                title="Supprimer"
+                                                onClick={() => handleDownload(doc._id, doc.originalName)}
+                                                className="btn-icon"
+                                                style={{color: 'var(--success-color)'}}
+                                                title="Télécharger"
                                             >
-                                                <Trash size={18} />
+                                                <Download size={18} />
                                             </button>
-                                        )}
+                                            {isAdmin && (
+                                                <button 
+                                                    onClick={() => handleDelete(doc._id)}
+                                                    className="btn-icon delete"
+                                                    title="Supprimer"
+                                                >
+                                                    <Trash size={18} />
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 };

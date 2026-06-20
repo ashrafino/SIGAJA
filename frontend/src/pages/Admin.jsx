@@ -156,44 +156,58 @@ const Admin = () => {
                 </div>
             )}
 
-            <div className="table-container card">
+            <div className="card">
                 <h3>Utilisateurs du Système</h3>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            {isAdmin && <th style={{textAlign: 'right'}}>Actions</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user._id}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>
-                                    <span className={`status ${
-                                        user.role === 'Admin' ? 'status-danger' : 
-                                        user.role === 'Directeur Général' ? 'status-dg' :
-                                        'status-info'
-                                    }`}>
-                                        {user.role}
-                                    </span>
-                                </td>
-                                {isAdmin && (
-                                    <td style={{textAlign: 'right'}}>
-                                        {user.role !== 'Admin' && (
-                                            <button className="btn-icon delete" onClick={() => handleDelete(user._id)} title="Supprimer">
-                                                <Trash size={18} />
-                                            </button>
+                {users.length === 0 ? (
+                    <div className="empty-state">
+                        <div className="empty-state-icon">
+                            <User size={32} />
+                        </div>
+                        <h3>Aucun utilisateur</h3>
+                        <p>Il n'y a aucun utilisateur enregistré dans le système.</p>
+                    </div>
+                ) : (
+                    <div className="table-container">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Rôle</th>
+                                    {isAdmin && <th style={{textAlign: 'right'}}>Actions</th>}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => (
+                                    <tr key={user._id}>
+                                        <td style={{ fontWeight: 600 }}>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            <span className={`status ${
+                                                user.role === 'Admin' ? 'status-danger' : 
+                                                user.role === 'Directeur Général' ? 'status-warning' :
+                                                'status-info'
+                                            }`}>
+                                                {user.role}
+                                            </span>
+                                        </td>
+                                        {isAdmin && (
+                                            <td style={{textAlign: 'right'}}>
+                                                <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
+                                                    {user.role !== 'Admin' && (
+                                                        <button className="btn-icon delete" onClick={() => handleDelete(user._id)} title="Supprimer">
+                                                            <Trash size={18} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
                                         )}
-                                    </td>
-                                )}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     );
