@@ -18,10 +18,10 @@ const storage = new CloudinaryStorage({
     let resourceType = 'auto'; // Auto detects images, videos, etc.
     let folder = 'sigaja_uploads';
     
-    // Cloudinary needs raw for documents like pdf, doc, etc if not configured otherwise
+    // Cloudinary restricts delivering PDFs via the image pipeline on many accounts (ACL failure).
+    // We MUST use 'raw' for documents.
     if (['pdf', 'doc', 'docx', 'xls', 'xlsx'].includes(ext)) {
-       // resourceType = 'raw'; // Un-comment if Cloudinary requires 'raw' for these, 'auto' usually works fine for pdfs nowadays, but let's be safe.
-       // Actually 'auto' is generally best in Cloudinary v2 for supported docs like PDF.
+       resourceType = 'raw'; 
        folder = 'sigaja_documents';
     } else {
        folder = 'sigaja_images';
