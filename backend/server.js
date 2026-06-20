@@ -19,9 +19,29 @@ const path = require('path');
 
 dotenv.config();
 
-connectDB();
-
 const app = express();
+
+// Ensure DB is connected before handling requests (Serverless pattern)
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error('Failed to connect to database in middleware:', error);
+        
+        // Check if MONGO_URI is defined
+        const isMongoUriDefined = !!process.env.MONGO_URI;
+        
+        res.status(500).json({ 
+            message: 'Database connection failed',
+            details: error.message,
+            env_status: {
+                MONGO_URI_CONFIGURED: isMongoUriDefined
+            },
+            instruction: 'If MONGO_URI_CONFIGURED is true, this is almost certainly a MongoDB Atlas Network Access issue. You MUST allow 0.0.0.0/0 in your Atlas Dashboard.'
+        });
+    }
+});
 
 // Set security HTTP headers - Configure helmet before CORS
 app.use(helmet({

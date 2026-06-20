@@ -1,14 +1,38 @@
 const mongoose = require('mongoose');
 
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/srm_db', {
-            serverSelectionTimeoutMS: 5000 // Timeout after 5 seconds instead of 30 to prevent Vercel 10s function timeout
+    if (cached.conn) {
+        console.log('MongoDB: Using cached connection');
+        return cached.conn;
+    }
+
+    if (!cached.promise) {
+        console.log('MongoDB: Creating new connection');
+        mongoose.set('strictQuery', false);
+        
+        cached.promise = mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/srm_db', {
+            bufferCommands: false,
+            serverSelectionTimeoutMS: 5000,
+            connectTimeoutMS: 10000,
+        }).then((mongoose) => {
+            return mongoose;
         });
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    }
+
+    try {
+        cached.conn = await cached.promise;
+        console.log(`MongoDB Connected: ${cached.conn.connection.host}`);
+        return cached.conn;
     } catch (error) {
-        console.error(`Error: ${error.message}`);
-        // Removed process.exit(1) to prevent Vercel function crash
+        cached.promise = null;
+        console.error(`Error connecting to MongoDB: ${error.message}`);
+        throw error; // Let the caller know the connection failed
     }
 };
 
