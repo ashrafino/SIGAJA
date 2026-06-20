@@ -356,7 +356,7 @@ const Recouvrement = () => {
                     {showDetail.piecesJointes.map((pj, i) => (
                       <li key={i}>
                         <a
-                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.replace(/^\\//, '')}`}
+                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -857,7 +857,7 @@ const Recouvrement = () => {
                       {dossier.piecesJointes.map((pj, i) => (
                         <a
                           key={i}
-                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.replace(/^\\//, '')}`}
+                          href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={`Voir document ${i + 1}`}

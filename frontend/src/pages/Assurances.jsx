@@ -290,7 +290,7 @@ const Assurances = () => {
                                     {a.piecesJointes && a.piecesJointes.length > 0 ? (
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                             {a.piecesJointes.map((pj, i) => (
-                                                <a key={i} href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.replace(/^\\//, '')}`} target="_blank" rel="noopener noreferrer" 
+                                                <a key={i} href={pj.startsWith('http') ? pj : `${import.meta.env.VITE_API_URL}${pj.startsWith('/') ? pj.slice(1) : pj}`} target="_blank" rel="noopener noreferrer" 
                                                    title={`Voir document ${i+1}`} 
                                                    style={{ color: '#023047', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', textDecoration: 'none' }}>
                                                     <Paperclip size={14} /> Doc {i+1}
