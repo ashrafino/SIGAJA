@@ -238,11 +238,11 @@ const Dashboard = () => {
                   data={contentieuxStats.parStatut}
                   cx="50%"
                   cy="50%"
-                  labelLine={true}
-                  label={({ name, value }) => `${name} (${value})`}
+                  innerRadius={60}
                   outerRadius={90}
-                  fill="#8884d8"
+                  paddingAngle={5}
                   dataKey="value"
+                  stroke="none"
                 >
                   {contentieuxStats.parStatut.map((entry, index) => (
                     <Cell
@@ -251,8 +251,10 @@ const Dashboard = () => {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} 
+                />
+                <Legend iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -269,11 +271,11 @@ const Dashboard = () => {
                   data={assurancesStats.parType}
                   cx="50%"
                   cy="50%"
-                  labelLine={true}
-                  label={({ name, value }) => `${name} (${value})`}
+                  innerRadius={60}
                   outerRadius={90}
-                  fill="#8884d8"
+                  paddingAngle={5}
                   dataKey="value"
+                  stroke="none"
                 >
                   {assurancesStats.parType.map((entry, index) => (
                     <Cell
@@ -282,8 +284,10 @@ const Dashboard = () => {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} 
+                />
+                <Legend iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -296,36 +300,52 @@ const Dashboard = () => {
       {timelineData.length > 0 && (
         <div className="chart-card full-width">
           <h3>Évolution Mensuelle — Tous Modules</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={timelineData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
+          <ResponsiveContainer width="100%" height={320}>
+            <AreaChart data={timelineData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorContentieux" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorContrats" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorAssurances" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dx={-10} />
+              <Tooltip 
+                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }} 
+              />
+              <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
               <Area
                 type="monotone"
                 dataKey="Contentieux"
-                stackId="1"
-                stroke="#0088FE"
-                fill="#0088FE"
-                fillOpacity={0.6}
+                stroke="#2563eb"
+                strokeWidth={3}
+                fillOpacity={1}
+                fill="url(#colorContentieux)"
               />
               <Area
                 type="monotone"
                 dataKey="Contrats"
-                stackId="1"
-                stroke="#00C49F"
-                fill="#00C49F"
-                fillOpacity={0.6}
+                stroke="#10b981"
+                strokeWidth={3}
+                fillOpacity={1}
+                fill="url(#colorContrats)"
               />
               <Area
                 type="monotone"
                 dataKey="Assurances"
-                stackId="1"
-                stroke="#FFBB28"
-                fill="#FFBB28"
-                fillOpacity={0.6}
+                stroke="#f59e0b"
+                strokeWidth={3}
+                fillOpacity={1}
+                fill="url(#colorAssurances)"
               />
             </AreaChart>
           </ResponsiveContainer>
