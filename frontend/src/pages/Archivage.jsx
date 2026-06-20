@@ -93,20 +93,25 @@ const Archivage = () => {
         }
     };
 
-    const handleDownload = async (id, filename) => {
+    const handleDownload = async (url, filename) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}api/documents/${id}/download`, {
-                responseType: 'blob',
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            // We fetch the public Cloudinary URL directly using fetch
+            // This prevents Axios from sending the backend's Bearer token to Cloudinary, which causes a 401
+            const response = await fetch(url);
             
-            const url = window.URL.createObjectURL(new Blob([response.data]));
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            
             const link = document.createElement('a');
-            link.href = url;
+            link.href = blobUrl;
             link.setAttribute('download', filename);
             document.body.appendChild(link);
             link.click();
             link.remove();
+            
+            setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
         } catch (error) {
             console.error(error);
             alert('Erreur lors du téléchargement');
@@ -254,7 +259,7 @@ const Archivage = () => {
                                     <td style={{textAlign: 'right'}}>
                                         <div className="action-buttons" style={{justifyContent: 'flex-end'}}>
                                             <button 
-                                                onClick={() => handleDownload(doc._id, doc.originalName)}
+                                                onClick={() => handleDownload(doc.path, doc.originalName)}
                                                 className="btn-icon"
                                                 style={{color: 'var(--success-color)'}}
                                                 title="Télécharger"
