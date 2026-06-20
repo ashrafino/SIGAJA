@@ -1,50 +1,143 @@
+/* Premium Login Page */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 .login-container {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: #0a1628;
+    background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/hero_laayoune.png') center/cover no-repeat;
+    opacity: 0.06;
 }
 
 .login-card {
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px);
+    padding: 48px 40px;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
+    animation: cardSlideUp 0.5s ease-out;
+}
+
+@keyframes cardSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .login-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
+}
+
+.login-header .login-logo {
+    height: 70px;
+    margin-bottom: 16px;
 }
 
 .login-header h2 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
+    color: #0a1628;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 
 .login-header p {
-    color: var(--text-secondary);
+    color: #64748b;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.login-card .form-group {
+    margin-bottom: 20px;
+}
+
+.login-card .form-group label {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.login-card .form-control {
+    padding: 12px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    transition: all 0.2s;
+}
+
+.login-card .form-control:focus {
+    background: white;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.login-card .form-control::placeholder {
+    color: #94a3b8;
 }
 
 .w-100 {
     width: 100%;
 }
 
+.login-card .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: #0a1628;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.login-card .btn-primary:hover {
+    background: #162544;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(10, 22, 40, 0.3);
+}
+
 .error-message {
-    background-color: #ffebee;
-    color: var(--danger-color);
-    padding: 10px;
-    border-radius: 4px;
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 10px;
     margin-bottom: 20px;
     text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #fecaca;
 }
 
 .login-footer {
-    margin-top: 20px;
+    margin-top: 24px;
     text-align: center;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-size: 0.82rem;
+    color: #94a3b8;
 }

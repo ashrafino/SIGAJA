@@ -20,7 +20,6 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    // 2. Connexion Réelle via API
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}api/auth/login`,
@@ -40,18 +39,12 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h2>SIGAJA (SRM-LS)</h2>
-          <p
-            style={{
-              fontSize: "0.85rem",
-              lineHeight: "1.4",
-              marginTop: "10px",
-            }}
-          >
-            Système Informatisé de Gestion des Affaires Juridiques et des
-            Assurances
+          <img src="/srm_logo.png" alt="SRM Laâyoune" className="login-logo" />
+          <h2>SIGAJA</h2>
+          <p>
+            Système Intégré de Gestion des Affaires Juridiques et des Assurances
             <br />
-            (Société Régionale Multiservices - Laâyoune Sakia El Hamra)
+            <strong>SRM Laâyoune-Sakia El Hamra</strong>
           </p>
         </div>
         {error && <div className="error-message">{error}</div>}
@@ -59,7 +52,7 @@ const Login = () => {
           <div className="form-group">
             <label>Email Professionnel</label>
             <input
-              type="text" // Changé en text pour permettre juste "admin"
+              type="text"
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -74,7 +67,7 @@ const Login = () => {
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="********"
+              placeholder="••••••••"
               required
             />
           </div>

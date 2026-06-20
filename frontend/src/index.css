@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 :root {
-  /* Couleurs Institutionnelles (Bleu Corporate, Gris neutre, Accentuation) */
-  --primary-color: #003366; /* Bleu foncé institutionnel */
-  --secondary-color: #0066cc; /* Bleu plus clair */
-  --accent-color: #ffcc00; /* Jaune/Or pour alertes ou actions importantes */
-  --background-color: #f4f6f8; /* Gris très clair pour le fond */
-  --sidebar-bg: #ffffff;
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --border-color: #e0e0e0;
-  --success-color: #28a745;
-  --warning-color: #ffc107;
-  --danger-color: #dc3545;
-  --card-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  /* Premium Color System */
+  --primary-color: #0a1628;
+  --primary-light: #162544;
+  --secondary-color: #2563eb;
+  --accent-color: #10b981;
+  --accent-warm: #f59e0b;
+  --background-color: #f1f5f9;
+  --sidebar-bg: #0a1628;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
   --sidebar-width: 260px;
-  --header-height: 60px;
+  --header-height: 64px;
+  --radius: 12px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -23,10 +30,12 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--background-color);
   color: var(--text-primary);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -38,50 +47,100 @@ ul {
   list-style: none;
 }
 
+/* Premium Button System */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.3s;
+  font-size: 0.875rem;
+  transition: var(--transition);
+  letter-spacing: 0.01em;
 }
 
 .btn-primary {
-  background-color: var(--primary-color);
+  background: var(--secondary-color);
   color: white;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: var(--secondary-color);
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
 }
 
+.btn-secondary {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Premium Card System */
 .card {
   background: white;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: var(--radius);
+  padding: 24px;
   box-shadow: var(--card-shadow);
-  margin-bottom: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: var(--transition);
 }
 
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Form Elements */
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-primary);
 }
 
 .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: white;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .page-title {
-    font-size: 1.5rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    border-bottom: 2px solid var(--secondary-color);
-    padding-bottom: 10px;
-    display: inline-block;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  border-bottom: none;
+  padding-bottom: 0;
+  font-weight: 700;
 }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
