@@ -23,22 +23,44 @@ connectDB();
 
 const app = express();
 
-// Set security HTTP headers
-app.use(helmet());
+// Set security HTTP headers - Configure helmet before CORS
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
 
-// Cors setup
+// CORS setup with proper origin validation
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://sigaja.vercel.app',
+    'https://sigaja-48gowzv4j-achrafs-projects-36584b1a.vercel.app',
+    'https://sigaja-c8iqf8cjm-achrafs-projects-36584b1a.vercel.app',
+];
+
 const corsOptions = {
-    origin: process.env.NODE_ENV === 'production' 
-        ? [
-            process.env.FRONTEND_URL, 
-            'https://sigaja.vercel.app',
-            'https://sigaja-48gowzv4j-achrafs-projects-36584b1a.vercel.app',
-            /\.vercel\.app$/ // Allow all Vercel preview deployments
-          ]
-        : '*', 
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin) return callback(null, true);
+        
+        // Check if origin is in allowed list or matches Vercel pattern
+        if (allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+            callback(null, true);
+        } else {
+            console.log('CORS blocked origin:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    maxAge: 600, // 10 minutes
 };
+
 app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options('*', cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
