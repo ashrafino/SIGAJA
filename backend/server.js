@@ -29,7 +29,12 @@ app.use(helmet());
 // Cors setup
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.FRONTEND_URL, 'https://sigaja.vercel.app'] // Add production URLs here or use env var
+        ? [
+            process.env.FRONTEND_URL, 
+            'https://sigaja.vercel.app',
+            'https://sigaja-48gowzv4j-achrafs-projects-36584b1a.vercel.app',
+            /\.vercel\.app$/ // Allow all Vercel preview deployments
+          ]
         : '*', 
     credentials: true,
 };
