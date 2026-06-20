@@ -1,20 +1,20 @@
 .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    background: transparent; /* Let body background show */
+    background: var(--background-color);
 }
 
 .main-content {
     flex: 1;
-    margin-left: calc(var(--sidebar-width) + 40px); /* Account for sidebar width + left margin + gap */
+    margin-left: var(--sidebar-width);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 .content-area {
-    padding: 30px 40px 40px 0; /* No left padding needed because of margin-left gap */
+    padding: 2rem;
     flex: 1;
-    background-color: transparent;
+    background-color: var(--background-color);
     overflow-y: auto;
 }
