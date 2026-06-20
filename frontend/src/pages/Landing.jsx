@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ShieldCheck, FileText, BarChart3, Database } from "lucide-react";
+import { ShieldCheck, FileText, BarChart3, Database, Droplets, Zap, ArrowRight, ChevronRight } from "lucide-react";
 import "./Landing.css";
 
 const Landing = () => {
@@ -20,18 +20,34 @@ const Landing = () => {
             <span>Société Régionale Multiservices</span>
           </div>
         </div>
+        <nav className="nav-links">
+          <a href="#features">Fonctionnalités</a>
+          <a href="#about">À propos</a>
+          <a href="#services">Services</a>
+        </nav>
         <button className="btn-login-nav" onClick={handleLoginClick}>
-          Espace Collaborateur
+          <span>Espace Collaborateur</span>
+          <ArrowRight size={16} />
         </button>
       </header>
 
       {/* Hero Section */}
       <section className="hero-section">
+        <div className="hero-bg-image">
+          <img src="/hero_laayoune.png" alt="Laâyoune" />
+          <div className="hero-overlay"></div>
+        </div>
         <div className="hero-content">
-          <span className="hero-badge">Plateforme Interne</span>
+          <span className="hero-badge">
+            <Zap size={14} />
+            Plateforme Interne SRM-LS
+          </span>
           <h1 className="hero-title">
-            Système Intégré de Gestion des <span className="highlight">Affaires Juridiques</span> et des <span className="highlight">Assurances</span>
+            SIGAJA
           </h1>
+          <p className="hero-tagline">
+            Système Intégré de Gestion des <strong>Affaires Juridiques</strong> et des <strong>Assurances</strong>
+          </p>
           <p className="hero-subtitle">
             Centralisez, suivez et optimisez la gestion de vos contentieux, contrats, 
             assurances et alertes juridiques au sein d'une interface unique, sécurisée et professionnelle.
@@ -39,28 +55,31 @@ const Landing = () => {
           <div className="hero-actions">
             <button className="btn-primary-hero" onClick={handleLoginClick}>
               Se connecter à SIGAJA
+              <ArrowRight size={18} />
             </button>
           </div>
-        </div>
-        <div className="hero-image-container">
-          <div className="glass-card mockup-card">
-            <div className="mockup-header">
-              <div className="dots">
-                <span className="dot red"></span>
-                <span className="dot yellow"></span>
-                <span className="dot green"></span>
+          <div className="hero-stats">
+            <div className="stat-item">
+              <Droplets size={20} />
+              <div>
+                <span className="stat-number">Eau</span>
+                <span className="stat-label">Potable</span>
               </div>
             </div>
-            <div className="mockup-body">
-              <div className="mockup-sidebar"></div>
-              <div className="mockup-content">
-                <div className="mockup-box header-box"></div>
-                <div className="mockup-grid">
-                  <div className="mockup-box"></div>
-                  <div className="mockup-box"></div>
-                  <div className="mockup-box"></div>
-                </div>
-                <div className="mockup-box large-box"></div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <Zap size={20} />
+              <div>
+                <span className="stat-number">Électricité</span>
+                <span className="stat-label">Distribution</span>
+              </div>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <ShieldCheck size={20} />
+              <div>
+                <span className="stat-number">Assainissement</span>
+                <span className="stat-label">Liquide</span>
               </div>
             </div>
           </div>
@@ -68,10 +87,11 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section className="features-section" id="features">
         <div className="section-header">
-          <h2>Fonctionnalités Principales</h2>
-          <p>Une solution complète pour les services juridiques de la SRM-LS</p>
+          <span className="section-badge">Fonctionnalités</span>
+          <h2>Une solution complète pour la gestion juridique</h2>
+          <p>Conçue spécialement pour les besoins de la SRM Laâyoune-Sakia El Hamra</p>
         </div>
         <div className="features-grid">
           <div className="feature-card">
@@ -79,28 +99,93 @@ const Landing = () => {
               <FileText size={28} />
             </div>
             <h3>Gestion des Contentieux</h3>
-            <p>Suivi détaillé des dossiers de recouvrement, audiences, recours et litiges avec système d'avancement.</p>
+            <p>Suivi détaillé des dossiers de recouvrement, audiences, recours et litiges avec système d'avancement en temps réel.</p>
+            <span className="feature-link">
+              En savoir plus <ChevronRight size={14} />
+            </span>
           </div>
           <div className="feature-card">
             <div className="feature-icon icon-green">
               <Database size={28} />
             </div>
             <h3>Gestion Contractuelle</h3>
-            <p>Bibliothèque numérique de tous les contrats, marchés publics et partenariats avec alertes d'expiration.</p>
+            <p>Bibliothèque numérique de tous les contrats, marchés publics et partenariats avec alertes automatiques d'expiration.</p>
+            <span className="feature-link">
+              En savoir plus <ChevronRight size={14} />
+            </span>
           </div>
           <div className="feature-card">
-            <div className="feature-icon icon-yellow">
+            <div className="feature-icon icon-amber">
               <ShieldCheck size={28} />
             </div>
             <h3>Suivi des Assurances</h3>
-            <p>Déclaration d'incidents, suivi des indemnisations, et gestion des polices d'assurance (Eau, Électricité).</p>
+            <p>Déclaration d'incidents, suivi des indemnisations, et gestion des polices d'assurance pour l'ensemble des activités.</p>
+            <span className="feature-link">
+              En savoir plus <ChevronRight size={14} />
+            </span>
           </div>
           <div className="feature-card">
             <div className="feature-icon icon-purple">
               <BarChart3 size={28} />
             </div>
-            <h3>Tableaux de Bord</h3>
-            <p>Statistiques en temps réel, KPIs et reporting global sur l'activité juridique et financière de la SRM.</p>
+            <h3>Tableaux de Bord & KPIs</h3>
+            <p>Statistiques en temps réel, indicateurs de performance et reporting global sur l'activité juridique et financière.</p>
+            <span className="feature-link">
+              En savoir plus <ChevronRight size={14} />
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* About / Image Section */}
+      <section className="about-section" id="about">
+        <div className="about-content">
+          <span className="section-badge">À propos de la SRM</span>
+          <h2>Au service de la région Laâyoune-Sakia El Hamra</h2>
+          <p>
+            La Société Régionale Multiservices (SRM) est une société anonyme à capitaux majoritairement publics, 
+            créée dans le cadre de la loi n° 83-21 pour gérer la distribution d'eau potable, d'électricité 
+            et l'assainissement liquide dans la région.
+          </p>
+          <p>
+            SIGAJA est la plateforme numérique interne de la SRM, conçue pour digitaliser et optimiser 
+            la gestion des affaires juridiques, des contrats et des assurances de l'entreprise.
+          </p>
+          <button className="btn-secondary" onClick={handleLoginClick}>
+            Accéder à la plateforme
+            <ArrowRight size={16} />
+          </button>
+        </div>
+        <div className="about-image">
+          <img src="/feature_legal.png" alt="Bureau juridique SRM" />
+        </div>
+      </section>
+
+      {/* Services Banner */}
+      <section className="services-section" id="services">
+        <div className="services-bg">
+          <img src="/feature_infra.png" alt="Infrastructure SRM" />
+          <div className="services-overlay"></div>
+        </div>
+        <div className="services-content">
+          <h2>Infrastructure au service des citoyens</h2>
+          <p>La SRM gère l'ensemble des services essentiels de distribution d'eau, d'électricité et d'assainissement pour la région.</p>
+          <div className="services-cards">
+            <div className="service-card">
+              <Droplets size={32} />
+              <h4>Eau Potable</h4>
+              <p>Distribution et gestion du réseau d'eau potable</p>
+            </div>
+            <div className="service-card">
+              <Zap size={32} />
+              <h4>Électricité</h4>
+              <p>Distribution de l'énergie électrique dans la région</p>
+            </div>
+            <div className="service-card">
+              <ShieldCheck size={32} />
+              <h4>Assainissement</h4>
+              <p>Gestion du réseau d'assainissement liquide</p>
+            </div>
           </div>
         </div>
       </section>
@@ -108,11 +193,22 @@ const Landing = () => {
       {/* Footer */}
       <footer className="landing-footer">
         <div className="footer-content">
-          <div className="footer-logo">
-             <img src="/srm_logo.png" alt="SRM Logo" className="footer-srm-logo" />
-             <span>SIGAJA © {new Date().getFullYear()}</span>
+          <div className="footer-left">
+            <div className="footer-logo">
+              <img src="/srm_logo.png" alt="SRM Logo" className="footer-srm-logo" />
+              <div>
+                <h3>SIGAJA</h3>
+                <span>Système Intégré de Gestion des Affaires Juridiques et des Assurances</span>
+              </div>
+            </div>
+            <p className="footer-description">
+              Société Régionale Multiservices Laâyoune-Sakia El Hamra<br />
+              Avenue des FAR, Laâyoune, Maroc
+            </p>
           </div>
-          <p>Société Régionale Multiservices Laâyoune-Sakia El Hamra</p>
+          <div className="footer-right">
+            <p>© {new Date().getFullYear()} SRM Laâyoune-Sakia El Hamra. Tous droits réservés.</p>
+          </div>
         </div>
       </footer>
     </div>
