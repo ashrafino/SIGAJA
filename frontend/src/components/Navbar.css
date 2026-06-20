@@ -12,16 +12,50 @@
     z-index: 900;
 }
 
-.navbar-left h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: var(--background-color);
+    border-radius: 20px;
+    padding: 6px 14px;
+    width: 320px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.search-container:focus-within {
+    background: white;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-icon {
+    color: var(--text-secondary);
+    margin-right: 8px;
+}
+
+.search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 0.85rem;
     color: var(--text-primary);
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
 }
 
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
 }
 
 .notification-icon {
@@ -183,59 +217,118 @@
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     color: var(--text-primary);
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 10px;
+    padding: 4px 10px;
+    border-radius: 12px;
     transition: var(--transition);
-    font-size: 0.9rem;
+    position: relative;
+    border: 1px solid transparent;
 }
 
 .user-profile:hover {
-    background: var(--background-color);
+    background: #f8fafc;
+    border-color: #e2e8f0;
 }
 
 .avatar {
-    width: 34px;
-    height: 34px;
-    background: linear-gradient(135deg, var(--secondary-color), #7c3aed);
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
+}
+
+.user-info-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.user-role {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.chevron-icon {
+    color: var(--text-secondary);
 }
 
 .profile-dropdown {
     position: absolute;
-    top: 48px;
+    top: 52px;
     right: 0;
-    width: 160px;
+    width: 220px;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.12);
-    padding: 6px;
+    padding: 8px;
     z-index: 1000;
     animation: dropIn 0.2s ease-out;
 }
 
-.profile-dropdown .logout-btn {
-    background: none;
-    border: none;
-    color: var(--danger-color);
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    padding: 10px 12px;
-    border-radius: 8px;
-    transition: var(--transition);
-    font-size: 0.875rem;
+.dropdown-user-header {
+    padding: 12px 16px;
 }
 
-.profile-dropdown .logout-btn:hover {
+.greeting {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0 0 2px 0;
+}
+
+.greeting-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 4px 0;
+}
+
+.dropdown-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.dropdown-menu-item:hover {
+    background: #f8fafc;
+    color: var(--secondary-color);
+}
+
+.dropdown-menu-item.logout-btn {
+    color: var(--danger-color);
+    margin-top: 4px;
+}
+
+.dropdown-menu-item.logout-btn:hover {
     background: #fef2f2;
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Bell, User, Loader } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Bell, User, Loader, Search, Settings, LogOut, ChevronDown } from "lucide-react";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -9,7 +9,9 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const profileRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 
@@ -29,23 +31,22 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchNotifications();
-    // Optionnel: rafraîchir toutes les 60s
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  // Fermer le dropdown si clic à l'extérieur
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownRef]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleNotificationClick = (link) => {
     setShowDropdown(false);
@@ -55,15 +56,30 @@ const Navbar = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleLogout = (e) => {
-    e.stopPropagation(); // Empêche le menu de se refermer/rouvrir bizarrement
+    e.stopPropagation();
     localStorage.removeItem("userInfo");
-    navigate("/login"); // Force la redirection vers la page de connexion
+    navigate("/login");
+  };
+
+  // Determine current page title
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path.includes('recouvrement')) return 'Contentieux & Recouvrement';
+    if (path.includes('contrats')) return 'Gestion des Contrats';
+    if (path.includes('assurances')) return 'Dossiers Assurances';
+    if (path.includes('alertes')) return 'Alertes & Échéances';
+    if (path.includes('statistiques')) return 'Statistiques Globales';
+    if (path.includes('admin')) return 'Administration';
+    return 'Tableau de Bord';
   };
 
   return (
     <div className="navbar">
       <div className="navbar-left">
-        <h3>Espace de Gestion</h3>
+        <div className="search-container">
+          <Search size={18} className="search-icon" />
+          <input type="text" placeholder="Rechercher un dossier, contrat..." className="search-input" />
+        </div>
       </div>
       <div className="navbar-right">
         <div
@@ -86,6 +102,7 @@ const Navbar = () => {
                     e.stopPropagation();
                     fetchNotifications();
                   }}
+                  title="Rafraîchir"
                 >
                   ↻
                 </button>
@@ -97,7 +114,7 @@ const Navbar = () => {
                   </div>
                 )}
                 {!loading && notifications.length === 0 && (
-                  <p className="no-notif">Aucune notification</p>
+                  <p className="no-notif">Aucune notification pour le moment.</p>
                 )}
                 {!loading &&
                   notifications.map((notif, index) => (
@@ -120,16 +137,31 @@ const Navbar = () => {
         <div
           className="user-profile"
           onClick={() => setShowProfileMenu(!showProfileMenu)}
-          style={{ cursor: "pointer", position: "relative" }}
+          ref={profileRef}
         >
           <div className="avatar">
-            <User size={20} />
+            {userInfo.name ? userInfo.name.charAt(0).toUpperCase() : "A"}
           </div>
-          <span>{userInfo.name || "Admin"}</span>
+          <div className="user-info-nav">
+            <span className="user-name">{userInfo.name || "Admin"}</span>
+            <span className="user-role">{userInfo.role || "Administrator"}</span>
+          </div>
+          <ChevronDown size={16} className="chevron-icon" />
+          
           {showProfileMenu && (
             <div className="profile-dropdown">
-              <button onClick={handleLogout} className="logout-btn">
-                Déconnexion
+              <div className="dropdown-user-header">
+                <p className="greeting">Bonjour,</p>
+                <p className="greeting-name">{userInfo.name || "Admin"}</p>
+              </div>
+              <div className="dropdown-divider"></div>
+              <button className="dropdown-menu-item" onClick={() => navigate('/app/admin')}>
+                <Settings size={16} />
+                <span>Paramètres</span>
+              </button>
+              <button onClick={handleLogout} className="dropdown-menu-item logout-btn">
+                <LogOut size={16} />
+                <span>Déconnexion</span>
               </button>
             </div>
           )}
