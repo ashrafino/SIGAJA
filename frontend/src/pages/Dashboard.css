@@ -1,0 +1,132 @@
+.dashboard-container { padding: 0; }
+.page-title { font-size: 1.5rem; margin-bottom: 20px; color: #1a202c; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+
+.stat-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.bg-blue { background: linear-gradient(135deg, #023047, #219EBC); }
+.bg-green { background: linear-gradient(135deg, #065F46, #10B981); }
+.bg-yellow { background: linear-gradient(135deg, #92400E, #F59E0B); }
+.bg-red { background: linear-gradient(135deg, #7C2D12, #EF4444); }
+
+.stat-info h3 { font-size: 0.82rem; color: #64748b; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-info p { font-size: 1.6rem; font-weight: 700; color: #1a202c; margin: 0; }
+.stat-sub { font-size: 0.8rem; color: #94a3b8; font-weight: 400; }
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.chart-card h3 { font-size: 1rem; margin-bottom: 16px; color: #334155; }
+.chart-card.full-width { grid-column: 1 / -1; margin-bottom: 24px; }
+.no-data-msg { text-align: center; padding: 40px; color: #94a3b8; font-style: italic; }
+
+/* Risk Bars */
+.risk-bars { display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
+.risk-bar-item { display: flex; align-items: center; gap: 12px; }
+.risk-label { width: 80px; font-size: 0.85rem; font-weight: 600; color: #475569; }
+.risk-bar-track { flex: 1; height: 20px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+.risk-bar-fill { height: 100%; border-radius: 10px; transition: width 0.8s ease; }
+.risk-count { width: 30px; text-align: center; font-weight: 700; color: #334155; }
+
+/* Financial Grid */
+.financial-grid { margin-bottom: 24px; }
+.stat-card.financial { flex-direction: column; align-items: flex-start; }
+.stat-card.financial h4 { font-size: 0.82rem; color: #64748b; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.financial-value { font-size: 1.4rem; font-weight: 700; color: #1a202c; }
+.financial-value.green { color: #10B981; }
+.financial-value.blue { color: #0088FE; }
+.financial-value.red { color: #EF4444; }
+
+/* Activity Card */
+.recent-activity-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+.recent-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.recent-header h3 { margin: 0; font-size: 1rem; color: #334155; }
+
+.btn-sm {
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 12px; border-radius: 6px;
+    background: #023047; color: white; border: none;
+    cursor: pointer; font-size: 0.85rem;
+}
+.btn-sm:hover { background: #034363; }
+
+.table { width: 100%; border-collapse: collapse; }
+.table th { padding: 12px 16px; text-align: left; font-size: 0.82rem; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+.table td { padding: 12px 16px; font-size: 0.9rem; color: #334155; border-bottom: 1px solid #f1f5f9; }
+.table tr:hover { background: #f8fafc; }
+
+.action-buttons { display: flex; gap: 8px; }
+.btn-icon { background: none; border: none; cursor: pointer; color: #64748b; padding: 4px; border-radius: 4px; }
+.btn-icon:hover { background: #f1f5f9; color: #023047; }
+.btn-icon.delete:hover { color: #EF4444; }
+
+.status { padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
+.status-urgent { background: #FEE2E2; color: #B91C1C; }
+.status-warning { background: #FEF3C7; color: #92400E; }
+.status-info { background: #DBEAFE; color: #1E40AF; }
+.status-success { background: #D1FAE5; color: #065F46; }
+.status-danger { background: #FEE2E2; color: #B91C1C; }
+
+/* Modal */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); display: flex;
+    align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-content {
+    background: white; border-radius: 12px; padding: 24px;
+    width: 500px; max-width: 90vw; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.modal-content h2 { margin: 0 0 16px; font-size: 1.2rem; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.9rem; color: #334155; }
+.form-control { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem; box-sizing: border-box; }
+.form-control:focus { outline: none; border-color: #219EBC; box-shadow: 0 0 0 3px rgba(33,158,188,0.15); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+.btn-primary { background: #023047; color: white; }
+.btn-primary:hover { background: #034363; }
+.btn-secondary { background: #e2e8f0; color: #334155; }
+.btn-secondary:hover { background: #cbd5e1; }
