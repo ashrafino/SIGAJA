@@ -160,52 +160,44 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="page-title">
-        Tableau de Bord Stratégique — SIGAJA (SRM-LS)
-      </h1>
-      <p
-        style={{
-          textAlign: "center",
-          color: "#64748b",
-          marginTop: "-15px",
-          marginBottom: "30px",
-          fontSize: "1rem",
-          fontWeight: 500,
-        }}
-      >
-        Système Informatisé de Gestion des Affaires Juridiques et des Assurances
-        (Société Régionale Multiservices - Laâyoune Sakia El Hamra)
-      </p>
+      <div className="dashboard-header-sleek">
+        <div>
+          <h1 className="page-title" style={{ marginBottom: '4px', borderBottom: 'none', padding: 0 }}>Tableau de bord</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', margin: 0 }}>
+            Aperçu global des indicateurs juridiques et financiers.
+          </p>
+        </div>
+      </div>
 
       {/* KPI Cards — Real Data */}
       <div className="kpi-grid">
         <div className="kpi-card blue">
-          <Scale size={28} />
-          <div>
+          <div className="kpi-value-container">
             <span className="kpi-value">{overview?.dossiersEnCours ?? "—"}</span>
             <span className="kpi-label">Dossiers Contentieux ({overview?.totalDossiers ?? 0} total)</span>
           </div>
+          <Scale size={20} />
         </div>
         <div className="kpi-card green">
-          <TrendingUp size={28} />
-          <div>
+          <div className="kpi-value-container">
             <span className="kpi-value">{overview?.tauxRecouvrement ?? 0}%</span>
             <span className="kpi-label">Taux de Recouvrement</span>
           </div>
+          <TrendingUp size={20} />
         </div>
         <div className="kpi-card orange">
-          <Shield size={28} />
-          <div>
+          <div className="kpi-value-container">
             <span className="kpi-value">{overview?.assurancesDeclarees ?? 0}</span>
             <span className="kpi-label">Assurances en Attente ({overview?.totalAssurances ?? 0} total)</span>
           </div>
+          <Shield size={20} />
         </div>
         <div className="kpi-card red">
-          <AlertTriangle size={28} />
-          <div>
-            <span className="kpi-value" style={{ fontSize: '1.4rem' }}>{formatMAD(overview?.expositionRisque)}</span>
+          <div className="kpi-value-container">
+            <span className="kpi-value" style={{ fontSize: '1.5rem' }}>{formatMAD(overview?.expositionRisque)}</span>
             <span className="kpi-label">Exposition aux Risques</span>
           </div>
+          <AlertTriangle size={20} />
         </div>
       </div>
 

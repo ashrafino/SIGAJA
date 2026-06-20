@@ -1,9 +1,9 @@
 /* Landing.css - Professional SRM Landing Page */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ============ BASE ============ */
 .landing-page {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Cairo', sans-serif;
   min-height: 100vh;
   background: #f8fafc;
   color: #0f172a;
@@ -42,7 +42,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #023047;
+  color: var(--primary-color);
   line-height: 1.2;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .nav-links a:hover {
-  color: #023047;
+  color: var(--secondary-color);
 }
 
 .btn-login-nav {
@@ -74,7 +74,7 @@
   align-items: center;
   gap: 8px;
   padding: 0.6rem 1.4rem;
-  background: #023047;
+  background: var(--primary-color);
   color: white;
   border: none;
   border-radius: 8px;
@@ -85,7 +85,7 @@
 }
 
 .btn-login-nav:hover {
-  background: #034566;
+  background: var(--primary-light);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(2, 48, 71, 0.3);
 }
@@ -186,7 +186,7 @@
   align-items: center;
   gap: 10px;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
   color: white;
   border: none;
   border-radius: 10px;
@@ -268,7 +268,7 @@
 
 .section-header h2 {
   font-size: 2.5rem;
-  color: #023047;
+  color: var(--primary-color);
   font-weight: 800;
   margin-bottom: 1rem;
   line-height: 1.2;
@@ -373,7 +373,7 @@
 
 .about-content h2 {
   font-size: 2.2rem;
-  color: #023047;
+  color: var(--primary-color);
   font-weight: 800;
   margin-bottom: 1.5rem;
   line-height: 1.2;
@@ -516,7 +516,7 @@
 
 /* ============ FOOTER ============ */
 .landing-footer {
-  background: #0f172a;
+  background: #252d39;
   color: white;
   padding: 3rem 5%;
 }

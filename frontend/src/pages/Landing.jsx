@@ -14,7 +14,7 @@ const Landing = () => {
       {/* Navbar / Header */}
       <header className="landing-header">
         <div className="logo-container">
-          <img src="/srm_logo.png" alt="SRM Laâyoune Logo" className="srm-logo" />
+          <img src="/srm_logo_official.webp" alt="SRM Laâyoune Logo" className="srm-logo" />
           <div className="logo-text">
             <h2>SRM Laâyoune</h2>
             <span>Société Régionale Multiservices</span>
@@ -34,7 +34,7 @@ const Landing = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-bg-image">
-          <img src="/hero_laayoune.png" alt="Laâyoune" />
+          <img src="/srm_hero.webp" alt="Laâyoune" />
           <div className="hero-overlay"></div>
         </div>
         <div className="hero-content">
@@ -49,8 +49,7 @@ const Landing = () => {
             Système Intégré de Gestion des <strong>Affaires Juridiques</strong> et des <strong>Assurances</strong>
           </p>
           <p className="hero-subtitle">
-            Centralisez, suivez et optimisez la gestion de vos contentieux, contrats, 
-            assurances et alertes juridiques au sein d'une interface unique, sécurisée et professionnelle.
+            Entité unique et moderne garantissant la distribution d’eau potable, d'électricité et l’assainissement liquide dans toute la région de Laâyoune – Sakia El Hamra.
           </p>
           <div className="hero-actions">
             <button className="btn-primary-hero" onClick={handleLoginClick}>
@@ -143,9 +142,7 @@ const Landing = () => {
           <span className="section-badge">À propos de la SRM</span>
           <h2>Au service de la région Laâyoune-Sakia El Hamra</h2>
           <p>
-            La Société Régionale Multiservices (SRM) est une société anonyme à capitaux majoritairement publics, 
-            créée dans le cadre de la loi n° 83-21 pour gérer la distribution d'eau potable, d'électricité 
-            et l'assainissement liquide dans la région.
+            La Société Régionale Multiservices (SRM-LS) a pour objectif de moderniser et de renforcer les infrastructures de base afin d'améliorer la qualité des services offerts aux clients.
           </p>
           <p>
             SIGAJA est la plateforme numérique interne de la SRM, conçue pour digitaliser et optimiser 
@@ -163,8 +160,8 @@ const Landing = () => {
 
       {/* Services Banner */}
       <section className="services-section" id="services">
-        <div className="services-bg">
-          <img src="/feature_infra.png" alt="Infrastructure SRM" />
+        <div className="services-bg" style={{ backgroundColor: 'var(--primary-color)' }}>
+          <img src="/srm_hero.webp" alt="Infrastructure SRM" style={{ opacity: 0.2 }} />
           <div className="services-overlay"></div>
         </div>
         <div className="services-content">
@@ -195,7 +192,7 @@ const Landing = () => {
         <div className="footer-content">
           <div className="footer-left">
             <div className="footer-logo">
-              <img src="/srm_logo.png" alt="SRM Logo" className="footer-srm-logo" />
+              <img src="/srm_logo_official.webp" alt="SRM Logo" className="footer-srm-logo" />
               <div>
                 <h3>SIGAJA</h3>
                 <span>Système Intégré de Gestion des Affaires Juridiques et des Assurances</span>

@@ -1,26 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Premium Color System */
-  --primary-color: #0a1628;
-  --primary-light: #162544;
-  --secondary-color: #2563eb;
-  --accent-color: #10b981;
+  /* SRM Official Brand System */
+  --primary-color: #025690;
+  --primary-light: #036aa0;
+  --secondary-color: #ccaf46;
+  --accent-color: #be2215;
   --accent-warm: #f59e0b;
-  --background-color: #f1f5f9;
-  --sidebar-bg: #0a1628;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
+  --background-color: #f6f6f6;
+  --sidebar-bg: #025690;
+  --text-primary: #172231;
+  --text-secondary: #818385;
+  --border-color: #e4e4e7;
   --success-color: #10b981;
   --warning-color: #f59e0b;
-  --danger-color: #ef4444;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  --sidebar-width: 260px;
-  --header-height: 64px;
-  --radius: 12px;
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --danger-color: #be2215;
+  --card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --sidebar-width: 250px;
+  --header-height: 60px;
+  --radius: 8px;
+  --transition: all 0.2s ease-in-out;
 }
 
 * {
@@ -30,7 +30,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--background-color);
   color: var(--text-primary);
   line-height: 1.6;
@@ -52,38 +52,37 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 8px 24px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   transition: var(--transition);
-  letter-spacing: 0.01em;
 }
 
 .btn-primary {
-  background: var(--secondary-color);
+  background: var(--primary-color);
   color: white;
-  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  transform: translateY(-1px);
+  background: var(--primary-light);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary {
-  background: white;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background: var(--secondary-color);
+  color: white;
+  border: 1px solid var(--secondary-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-secondary:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: #b59b3d;
+  border-color: #b59b3d;
 }
 
 /* Premium Card System */

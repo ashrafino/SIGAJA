@@ -25,7 +25,7 @@ const Sidebar = () => {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <img src="/srm_logo.png" alt="SRM" className="sidebar-logo" />
+                <img src="/srm_logo_official.webp" alt="SRM" className="sidebar-logo" />
                 <div>
                     <h2>SIGAJA</h2>
                     <span className="sidebar-subtitle">SRM Laâyoune</span>
