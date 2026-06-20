@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Phone, Mail, Linkedin, Facebook, Instagram, User, Info, ArrowRight } from "lucide-react";
+import { User, Info, ArrowRight } from "lucide-react";
 import "./Landing.css";
 
 const Landing = () => {
@@ -11,111 +11,88 @@ const Landing = () => {
 
   return (
     <div className="landing-page">
-      {/* Top Bar - Dark Blue */}
-      <div className="top-bar">
-        <div className="top-bar-left">
-          <span>
-            <Phone size={14} style={{ marginRight: '8px' }} />
-            Centre de relation client : 080 203 10 30
-          </span>
-          <span style={{ borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '20px' }}>
-            <Mail size={14} style={{ marginRight: '8px' }} />
-            contact@srm-ls.ma
-          </span>
-        </div>
-        <div className="top-bar-right">
-          <span>اتصل بنا</span>
-          <div className="social-icons">
-            <Facebook size={16} />
-            <Instagram size={16} />
-            <Linkedin size={16} />
-          </div>
-        </div>
-      </div>
-
-      {/* Main Nav - White */}
+      {/* Premium Glass Navbar */}
       <nav className="main-nav">
-        <div className="nav-links">
-          <a href="#">الرئيسية</a>
-          <a href="#">من نحن</a>
-          <a href="#">فضاء الزبون</a>
-          <a href="#">طلبات العروض</a>
-          <a href="#">الموارد البشرية</a>
-        </div>
         <div>
           <img src="/srm_logo_official.webp" alt="SRM Logo" className="nav-logo" />
+        </div>
+        <div className="nav-links">
+          <a href="#">Espace Client</a>
+          <a href="#">Appels d'Offres</a>
+          <a href="#">À Propos</a>
+          <a href="#">Contact</a>
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="hero-section">
-        <img src="/srm_hero.webp" alt="SRM Hero Banner" className="hero-image" />
-        
-        {/* Overlapping Portals */}
-        <div className="portal-cards-wrapper">
-          <div className="portal-card">
-            <div className="portal-icon">
-              <User size={36} />
-            </div>
-            <h3>Espace Collaborateur</h3>
-            <p>Accédez à SIGAJA pour gérer les affaires juridiques et les assurances.</p>
-            <button className="portal-btn" onClick={handleLoginClick}>
-              Se connecter
-            </button>
-          </div>
+        {/* Background Elements */}
+        <div className="hero-image-container">
+          <img src="/srm_hero.webp" alt="SRM Infrastructure" className="hero-image" />
+          <div className="hero-overlay-gradient"></div>
+        </div>
 
-          <div className="portal-card accent">
-            <div className="portal-icon">
-              <Info size={36} />
+        {/* Hero Content */}
+        <div className="hero-content">
+          <div className="hero-badge">
+            SRM Laâyoune - Sakia El Hamra
+          </div>
+          <h1>
+            <span>SIGAJA</span>
+          </h1>
+          <p style={{ fontSize: '1.4rem', fontWeight: '600', color: '#f8fafc', marginBottom: '10px' }}>
+            Système Intégré de Gestion des Affaires Juridiques et des Assurances
+          </p>
+          <p>
+            Plateforme numérique sécurisée pour la gestion centralisée des contentieux, contrats et assurances de la Société Régionale Multiservices.
+          </p>
+
+          {/* Glass Cards Wrapper */}
+          <div className="glass-cards-wrapper">
+            <div className="glass-card">
+              <div className="card-icon-wrapper">
+                <User size={28} />
+              </div>
+              <h3>Espace Collaborateur</h3>
+              <p>Accès sécurisé à la plateforme SIGAJA pour la gestion des affaires juridiques, des contrats et des assurances.</p>
+              <button className="btn-glass" onClick={handleLoginClick}>
+                Se Connecter <ArrowRight size={18} />
+              </button>
             </div>
-            <h3>Portail Fournisseurs</h3>
-            <p>Consultez les appels d'offres et les règlements des marchés publics.</p>
-            <a href="#" className="portal-btn" style={{ borderColor: 'var(--secondary-color)', color: 'var(--secondary-color)' }}>
-              Découvrir
-            </a>
+
+            <div className="glass-card accent">
+              <div className="card-icon-wrapper">
+                <Info size={28} />
+              </div>
+              <h3>Espace Public</h3>
+              <p>Découvrez nos services, nos engagements, et accédez aux dernières actualités et appels d'offres de la région.</p>
+              <a href="https://www.srm-ls.ma/" target="_blank" rel="noreferrer" className="btn-glass">
+                Site Officiel <ArrowRight size={18} />
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Presentation Section */}
+      {/* Dramatic Presentation Section */}
       <section className="presentation-section">
-        <div className="presentation-content">
-          <div className="gold-separator">
-            <div className="gold-dash long"></div>
-            <div className="gold-dash short"></div>
-            <div className="gold-dash short"></div>
+        <div className="presentation-container">
+          <div className="presentation-image-wrapper">
+            <img src="/feature_legal.png" alt="Infrastructure SRM" />
           </div>
-          <h2>Société Régionale Multiservices Laâyoune - Sakia El Hamra S.A</h2>
-          <p>
-            Entité unique et moderne garantissant la distribution d’eau potable, d'électricité et l’assainissement liquide dans toute la région de Laâyoune – Sakia El Hamra, dans le cadre d'un contrat de gestion de 30 ans.
-          </p>
-          <p>
-            L'objectif principal de la SRM-LS est de moderniser et de renforcer les réseaux et les infrastructures de base afin d'améliorer leurs performances, de répondre à la demande croissante, et d'améliorer la qualité des services offerts aux clients.
-          </p>
-          <button className="btn-primary" style={{ marginTop: '20px', borderRadius: '999px' }} onClick={handleLoginClick}>
-            Accéder à SIGAJA <ArrowRight size={16} />
-          </button>
-        </div>
-        <div className="presentation-image">
-          <img src="/feature_legal.png" alt="Présentation SRM" />
-        </div>
-      </section>
-
-      {/* Clean Footer */}
-      <footer className="landing-footer">
-        <div className="footer-top">
-          <div className="footer-info">
-            <img src="/srm_logo_official.webp" alt="SRM Logo" className="footer-logo" />
-            <p style={{ marginTop: '20px' }}>
-              Société Régionale Multiservices Laâyoune-Sakia El Hamra<br />
-              Avenue des FAR, Laâyoune, Maroc
+          
+          <div className="presentation-content">
+            <div className="gold-dash-premium"></div>
+            <h2>Une Infrastructure<br />de Pointe</h2>
+            <p>
+              La Société Régionale Multiservices (SRM-LS) a pour objectif de moderniser et de renforcer les infrastructures de base.
+            </p>
+            <p>
+              Grâce à notre plateforme interne centralisée, nous assurons une gestion fluide et transparente des projets vitaux pour la région, offrant ainsi un service public irréprochable aux citoyens de Laâyoune - Sakia El Hamra.
             </p>
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} SRM Laâyoune-Sakia El Hamra S.A. Tous droits réservés.</p>
-        </div>
-      </footer>
+      </section>
     </div>
   );
 };
