@@ -15,6 +15,7 @@ const documentRoutes = require('./routes/documentRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const statsRoutes = require('./routes/statsRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const etudeRoutes = require('./routes/etudeRoutes');
 const path = require('path');
 
 dotenv.config();
@@ -105,6 +106,7 @@ app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/etudes', etudeRoutes);
 
 app.get('/', (req, res) => {
     res.send('SIGAJA API is running... (Production Ready)');

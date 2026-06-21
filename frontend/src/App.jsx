@@ -10,6 +10,7 @@ import Admin from './pages/Admin';
 import Archivage from './pages/Archivage';
 import Alertes from './pages/Alertes';
 import Landing from './pages/Landing';
+import Etudes from './pages/Etudes';
 import ProtectedRoute from './components/ProtectedRoute'; // Importation du ProtectedRoute
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <Route path="contrats" element={<Contrats />} />
                 <Route path="alertes" element={<Alertes />} />
                 <Route path="assurances" element={<Assurances />} />
+                <Route path="etudes" element={<Etudes />} />
                 <Route path="statistiques" element={<Statistiques />} />
                 <Route path="archivage" element={<Archivage />} />
                 <Route path="admin" element={<Admin />} />

@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, FileText, Database, ShieldAlert, PieChart, Lock, LogOut, Archive } from 'lucide-react';
+import { Home, FileText, Database, ShieldAlert, PieChart, Lock, LogOut, Archive, BookOpen } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -10,6 +10,7 @@ const Sidebar = () => {
         { name: 'Tableau de Bord', icon: <Home size={20} />, path: '/app' },
         { name: 'Contentieux', icon: <FileText size={20} />, path: '/app/recouvrement' },
         { name: 'Contrats', icon: <Database size={20} />, path: '/app/contrats' },
+        { name: 'Études Juridiques', icon: <BookOpen size={20} />, path: '/app/etudes' },
         { name: 'Alertes', icon: <ShieldAlert size={20} />, path: '/app/alertes' },
         { name: 'Assurances', icon: <ShieldAlert size={20} />, path: '/app/assurances' },
         { name: 'Statistiques', icon: <PieChart size={20} />, path: '/app/statistiques' },
