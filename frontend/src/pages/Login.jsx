@@ -39,7 +39,13 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src="/srm_logo.png" alt="SRM Laâyoune" className="login-logo" />
+          <img 
+            src="/srm_logo.png" 
+            alt="SRM Laâyoune" 
+            className="login-logo" 
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          />
           <h2>SIGAJA</h2>
           <p>
             Système Intégré de Gestion des Affaires Juridiques et des Assurances
