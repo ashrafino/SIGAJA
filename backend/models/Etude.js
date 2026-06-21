@@ -5,12 +5,11 @@ const etudeSchema = mongoose.Schema({
     type: { 
         type: String, 
         required: true,
-        enum: ['Note de synthèse', 'Note de présentation', 'Consultation', 'Service / Assistance']
+        enum: ['Note de synthèse', 'Note de présentation', 'Consultation', 'Service / Assistance', 'Rapport']
     },
     reference: { type: String },
     demandeur: { type: String, required: true },
-    dateDemande: { type: Date, required: true },
-    dateRendu: { type: Date },
+    date: { type: Date, required: true },
     statut: { 
         type: String, 
         default: 'En cours',

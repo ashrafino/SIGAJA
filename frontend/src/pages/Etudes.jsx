@@ -15,8 +15,7 @@ const Etudes = () => {
         type: 'Note de synthèse',
         reference: '',
         demandeur: '',
-        dateDemande: '',
-        dateRendu: '',
+        date: '',
         statut: 'En cours',
         juristeEnCharge: '',
         commentaires: '',
@@ -66,7 +65,7 @@ const Etudes = () => {
             setShowModal(false);
             setFormData({
                 titre: '', type: 'Note de synthèse', reference: '', demandeur: '',
-                dateDemande: '', dateRendu: '', statut: 'En cours', juristeEnCharge: '',
+                date: '', statut: 'En cours', juristeEnCharge: '',
                 commentaires: '', piecesJointes: []
             });
             setSelectedEtude(null);
@@ -99,8 +98,7 @@ const Etudes = () => {
             type: etude.type,
             reference: etude.reference || '',
             demandeur: etude.demandeur,
-            dateDemande: etude.dateDemande ? etude.dateDemande.split('T')[0] : '',
-            dateRendu: etude.dateRendu ? etude.dateRendu.split('T')[0] : '',
+            date: etude.date ? etude.date.split('T')[0] : '',
             statut: etude.statut,
             juristeEnCharge: etude.juristeEnCharge || '',
             commentaires: etude.commentaires || '',
@@ -132,7 +130,7 @@ const Etudes = () => {
                         setSelectedEtude(null);
                         setFormData({
                             titre: '', type: 'Note de synthèse', reference: '', demandeur: '',
-                            dateDemande: '', dateRendu: '', statut: 'En cours', juristeEnCharge: '',
+                            date: '', statut: 'En cours', juristeEnCharge: '',
                             commentaires: '', piecesJointes: []
                         });
                         setShowModal(true);
@@ -188,7 +186,7 @@ const Etudes = () => {
                                 <th>Titre / Objet</th>
                                 <th>Type</th>
                                 <th>Demandeur</th>
-                                <th>Date Demande</th>
+                                <th>Date</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
@@ -205,7 +203,7 @@ const Etudes = () => {
                                         </td>
                                         <td>{etude.type}</td>
                                         <td>{etude.demandeur}</td>
-                                        <td>{new Date(etude.dateDemande).toLocaleDateString('fr-FR')}</td>
+                                        <td>{etude.date ? new Date(etude.date).toLocaleDateString('fr-FR') : 'N/A'}</td>
                                         <td>
                                             <span className={`status ${getStatusClass(etude.statut)}`}>
                                                 {etude.statut}
@@ -247,6 +245,7 @@ const Etudes = () => {
                                         <option value="Note de présentation">Note de présentation</option>
                                         <option value="Consultation">Consultation</option>
                                         <option value="Service / Assistance">Service / Assistance</option>
+                                        <option value="Rapport">Rapport</option>
                                     </select>
                                 </div>
                                 <div className="form-group">
@@ -262,12 +261,8 @@ const Etudes = () => {
                                     <input type="text" value={formData.juristeEnCharge} onChange={(e) => setFormData({...formData, juristeEnCharge: e.target.value})} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Date de demande *</label>
-                                    <input type="date" value={formData.dateDemande} onChange={(e) => setFormData({...formData, dateDemande: e.target.value})} required />
-                                </div>
-                                <div className="form-group">
-                                    <label>Date de rendu</label>
-                                    <input type="date" value={formData.dateRendu} onChange={(e) => setFormData({...formData, dateRendu: e.target.value})} />
+                                    <label>Date *</label>
+                                    <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} required />
                                 </div>
                                 <div className="form-group">
                                     <label>Statut *</label>
@@ -283,7 +278,7 @@ const Etudes = () => {
                                     <textarea value={formData.commentaires} onChange={(e) => setFormData({...formData, commentaires: e.target.value})} rows={3} />
                                 </div>
                                 <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                                    <label>Pièces Jointes (Upload Cloudinary)</label>
+                                    <label>Pièces Jointes</label>
                                     <input type="file" multiple onChange={handleFileUpload} />
                                     {uploading && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#025690' }}>Téléchargement en cours...</div>}
                                     {formData.piecesJointes.length > 0 && (
@@ -329,8 +324,7 @@ const Etudes = () => {
 
                             <div className="detail-section">
                                 <h4>Suivi</h4>
-                                <p><strong>Date de demande :</strong> {new Date(selectedEtude.dateDemande).toLocaleDateString('fr-FR')}</p>
-                                <p><strong>Date de rendu :</strong> {selectedEtude.dateRendu ? new Date(selectedEtude.dateRendu).toLocaleDateString('fr-FR') : 'Non rendu'}</p>
+                                <p><strong>Date :</strong> {selectedEtude.date ? new Date(selectedEtude.date).toLocaleDateString('fr-FR') : 'N/A'}</p>
                                 <p>
                                     <strong>Statut : </strong>
                                     <span className={`status ${getStatusClass(selectedEtude.statut)}`}>{selectedEtude.statut}</span>
